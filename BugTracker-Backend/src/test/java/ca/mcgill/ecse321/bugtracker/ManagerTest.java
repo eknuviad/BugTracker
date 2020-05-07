@@ -1,4 +1,4 @@
-// package ca.mcgill.ecse321.bugtracker;
+package ca.mcgill.ecse321.bugtracker;
 
 // import org.junit.jupiter.api.AfterEach;
 // import org.junit.jupiter.api.BeforeEach;
