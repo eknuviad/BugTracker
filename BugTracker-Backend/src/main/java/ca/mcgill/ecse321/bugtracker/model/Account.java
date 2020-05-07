@@ -2,9 +2,12 @@ package ca.mcgill.ecse321.bugtracker.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 // line 3 "../../../../BugTracker-Backend.ump"
 @Entity
@@ -26,6 +29,9 @@ public class Account {
   // ------------------------
   // CONSTRUCTOR
   // ------------------------
+  public Account(){
+    
+  }
 
   public Account(String aName, String aEmail, String aDescription, int aPhoneNumber) {
     name = aName;
@@ -90,9 +96,10 @@ public class Account {
     return aUserRole;
   }
 
-  @OneToMany
+  @JsonManagedReference
+   @OneToMany(cascade = CascadeType.REMOVE)
   public List<UserRole> getUserRoles() {
-    List<UserRole> newUserRoles = Collections.unmodifiableList(userRoles);
+    List<UserRole> newUserRoles = userRoles;
     return newUserRoles;
   }
 
