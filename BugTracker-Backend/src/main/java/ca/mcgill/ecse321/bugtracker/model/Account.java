@@ -27,6 +27,10 @@ public class Account {
   // CONSTRUCTOR
   // ------------------------
 
+  public Account(){
+    
+  }
+
   public Account(String aName, String aEmail, String aDescription, int aPhoneNumber) {
     name = aName;
     email = aEmail;
@@ -92,7 +96,7 @@ public class Account {
 
   @OneToMany
   public List<UserRole> getUserRoles() {
-    List<UserRole> newUserRoles = Collections.unmodifiableList(userRoles);
+    List<UserRole> newUserRoles = userRoles;
     return newUserRoles;
   }
 
