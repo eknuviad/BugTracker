@@ -33,10 +33,6 @@ public class Account {
     
   }
 
-  public Account(){
-    
-  }
-
   public Account(String aName, String aEmail, String aDescription, int aPhoneNumber) {
     name = aName;
     email = aEmail;
