@@ -14,12 +14,9 @@ public class Manager extends UserRole
   //------------------------
   // CONSTRUCTOR
   //------------------------
-
-  public Manager(String aPassword, String aUserName, Account aAcc)
-  {
-    super(aPassword, aUserName, aAcc);
+  public Manager(){
+    
   }
-
   //------------------------
   // INTERFACE
   //------------------------
