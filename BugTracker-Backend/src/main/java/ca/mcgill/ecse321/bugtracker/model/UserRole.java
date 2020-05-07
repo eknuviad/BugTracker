@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.bugtracker.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -37,6 +38,9 @@ public class UserRole
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  public UserRole(){
+
+  }
 
   public UserRole(String aPassword, String aAccName, Account aAcc)
   {
@@ -83,7 +87,7 @@ public class UserRole
     return userName;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  @ManyToOne (optional = false)
   public Account getUser()
   {
     return acc;
@@ -94,10 +98,10 @@ public class UserRole
     Project aProject = projects.get(index);
     return aProject;
   }
-  @OneToMany
+  @OneToMany(cascade = CascadeType.REMOVE)
   public List<Project> getProjects()
   {
-    List<Project> newProjects = Collections.unmodifiableList(projects);
+    List<Project> newProjects = projects;
     return newProjects;
   }
   public void setProjects(List<Project> projectList) {
@@ -129,10 +133,10 @@ public class UserRole
     return aInvitation;
   }
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.REMOVE)
   public List<Invitation> getInvitations()
   {
-    List<Invitation> newInvitations = Collections.unmodifiableList(invitations);
+    List<Invitation> newInvitations = invitations;
     return newInvitations;
   }
   public void setInvitations(List<Invitation> inviteList) {
@@ -164,10 +168,10 @@ public class UserRole
     return aTicket;
   }
 
-  @OneToMany
+  @OneToMany (cascade = CascadeType.REMOVE)
   public List<Ticket> getTickets()
   {
-    List<Ticket> newTickets = Collections.unmodifiableList(tickets);
+    List<Ticket> newTickets = tickets;
     return newTickets;
   }
   public void setTickets(List<Ticket> ticketList) {

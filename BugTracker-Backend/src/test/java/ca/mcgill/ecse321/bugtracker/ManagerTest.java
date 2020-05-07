@@ -1,23 +1,73 @@
 package ca.mcgill.ecse321.bugtracker;
 
-// import org.junit.jupiter.api.AfterEach;
-// import org.junit.jupiter.api.BeforeEach;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.boot.test.context.SpringBootTest;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-// import ca.mcgill.ecse321.bugtracker.dao.ManagerRepository;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
-// @SpringBootTest
+import ca.mcgill.ecse321.bugtracker.dao.AccountRepository;
+
+import ca.mcgill.ecse321.bugtracker.dao.ManagerRepository;
+import ca.mcgill.ecse321.bugtracker.dao.UserRoleRepository;
+import ca.mcgill.ecse321.bugtracker.model.Manager;
+import ca.mcgill.ecse321.bugtracker.model.UserRole;
+import ca.mcgill.ecse321.bugtracker.model.Account;
+
+@SpringBootTest
 public class ManagerTest {
-    // @Autowired
-    // private ManagerRepository manRepository;
+    @Autowired
+    private ManagerRepository managerRepository;
     
-    // private AccountRepository accRepository;
+    @Autowired
+    private AccountRepository accRepository;
 
-    // @BeforeEach
-    // @AfterEach
-    // public void clearDatabase(){
+    @Autowired
+    private UserRoleRepository urRepository;
 
-    // }
+    private String accName = "Doe";
+    private String email = "johnDoe@gmail.com";
+    private String desc = "Testing my john doe account";
+    private int phoneNum = 123;
+    private String pass = "test123";
+    private String userName = "johnDoe";
+
+    
+    @AfterEach
+    public void clearDatabase(){       
+        accRepository.deleteAll();
+        urRepository.deleteAll();
+        managerRepository.deleteAll();
+    }
+
+    /**
+     * Manager persistence test
+     */
+
+     @Test
+     public void persistAndLoadManager(){
+        Account acc = new Account (accName, email, desc, phoneNum);
+        accRepository.save(acc);
+
+        Manager manager = new Manager();
+        manager.setUser(acc);
+        manager.setPassword(pass);
+        manager.setUserName(userName);
+        
+        managerRepository.save(manager); 
+
+        manager = null;
+
+        manager = managerRepository.findManagerByUserName(userName);
+        assertNotNull(manager);
+        assertEquals(pass, manager.getPassword());
+        assertEquals (userName, manager.getUserName());
+        assertEquals (email, manager.getUser().getEmail());
+    
+
+     }
     
 }
