@@ -8,28 +8,26 @@ import javax.persistence.OneToMany;
 
 // line 3 "../../../../BugTracker-Backend.ump"
 @Entity
-public class User
-{
+public class Account {
 
-  //------------------------
+  // ------------------------
   // MEMBER VARIABLES
-  //------------------------
+  // ------------------------
 
-  //User Attributes
+  // User Attributes
   private String name;
   private String email;
   private String description;
   private int phoneNumber;
 
-  //User Associations
+  // User Associations
   private List<UserRole> userRoles;
 
-  //------------------------
+  // ------------------------
   // CONSTRUCTOR
-  //------------------------
+  // ------------------------
 
-  public User(String aName, String aEmail, String aDescription, int aPhoneNumber)
-  {
+  public Account(String aName, String aEmail, String aDescription, int aPhoneNumber) {
     name = aName;
     email = aEmail;
     description = aDescription;
@@ -37,126 +35,115 @@ public class User
     userRoles = new ArrayList<UserRole>();
   }
 
-  //------------------------
+  // ------------------------
   // INTERFACE
-  //------------------------
+  // ------------------------
 
-  public boolean setName(String aName)
-  {
+  public boolean setName(String aName) {
     boolean wasSet = false;
     name = aName;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setEmail(String aEmail)
-  {
+  public boolean setEmail(String aEmail) {
     boolean wasSet = false;
     email = aEmail;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setDescription(String aDescription)
-  {
+  public boolean setDescription(String aDescription) {
     boolean wasSet = false;
     description = aDescription;
     wasSet = true;
     return wasSet;
   }
 
-  public boolean setPhoneNumber(int aPhoneNumber)
-  {
+  public boolean setPhoneNumber(int aPhoneNumber) {
     boolean wasSet = false;
     phoneNumber = aPhoneNumber;
     wasSet = true;
     return wasSet;
   }
 
-  public String getName()
-  {
+  public String getName() {
     return name;
   }
 
   @Id
-  public String getEmail()
-  {
+  public String getEmail() {
     return email;
   }
 
-  public String getDescription()
-  {
+  public String getDescription() {
     return description;
   }
 
-  public int getPhoneNumber()
-  {
+  public int getPhoneNumber() {
     return phoneNumber;
   }
+
   /* Code from template association_GetMany */
-  @OneToMany
-  public UserRole getUserRole(int index)
-  {
+  public UserRole getUserRole(int index) {
     UserRole aUserRole = userRoles.get(index);
     return aUserRole;
   }
 
-  public List<UserRole> getUserRoles()
-  {
+  @OneToMany
+  public List<UserRole> getUserRoles() {
     List<UserRole> newUserRoles = Collections.unmodifiableList(userRoles);
     return newUserRoles;
   }
 
-  public int numberOfUserRoles()
-  {
+  public void setUserRoles(List<UserRole> roles) {
+    this.userRoles = roles;
+  }
+
+  public int numberOfUserRoles() {
     int number = userRoles.size();
     return number;
   }
 
-  public boolean hasUserRoles()
-  {
+  public boolean hasUserRoles() {
     boolean has = userRoles.size() > 0;
     return has;
   }
 
-  public int indexOfUserRole(UserRole aUserRole)
-  {
+  public int indexOfUserRole(UserRole aUserRole) {
     int index = userRoles.indexOf(aUserRole);
     return index;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
-  public static int minimumNumberOfUserRoles()
-  {
+  public static int minimumNumberOfUserRoles() {
     return 0;
   }
+
   /* Code from template association_MaximumNumberOfMethod */
-  public static int maximumNumberOfUserRoles()
-  {
+  public static int maximumNumberOfUserRoles() {
     return 3;
   }
+
   /* Code from template association_AddOptionalNToOne */
-  public UserRole addUserRole(String aPassword, String aUserName)
-  {
-    if (numberOfUserRoles() >= maximumNumberOfUserRoles())
-    {
+  public UserRole addUserRole(String aPassword, String aUserName) {
+    if (numberOfUserRoles() >= maximumNumberOfUserRoles()) {
       return null;
-    }
-    else
-    {
+    } else {
       return new UserRole(aPassword, aUserName, this);
     }
   }
 
-  public boolean addUserRole(UserRole aUserRole)
-  {
+  public boolean addUserRole(UserRole aUserRole) {
     boolean wasAdded = false;
-    if (userRoles.contains(aUserRole)) { return false; }
-    if (numberOfUserRoles() >= maximumNumberOfUserRoles())
-    {
+    if (userRoles.contains(aUserRole)) {
+      return false;
+    }
+    if (numberOfUserRoles() >= maximumNumberOfUserRoles()) {
       return wasAdded;
     }
 
-    User existingUser = aUserRole.getUser();
+    Account existingUser = aUserRole.getUser();
     boolean isNewUser = existingUser != null && !this.equals(existingUser);
     if (isNewUser)
     {

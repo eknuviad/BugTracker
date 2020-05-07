@@ -3,6 +3,7 @@ package ca.mcgill.ecse321.bugtracker.model;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
@@ -28,7 +29,7 @@ public class UserRole
   private String userName;
 
   //UserRole Associations
-  private User user;
+  private Account acc;
   private List<Project> projects;
   private List<Invitation> invitations;
   private List<Ticket> tickets;
@@ -37,14 +38,14 @@ public class UserRole
   // CONSTRUCTOR
   //------------------------
 
-  public UserRole(String aPassword, String aUserName, User aUser)
+  public UserRole(String aPassword, String aAccName, Account aAcc)
   {
     password = aPassword;
-    userName = aUserName;
-    boolean didAddUser = setUser(aUser);
+    userName = aAccName;
+    boolean didAddUser = setUser(aAcc);
     if (!didAddUser)
     {
-      throw new RuntimeException("Unable to create userRole due to user");
+      throw new RuntimeException("Unable to create userRole due to acc");
     }
     projects = new ArrayList<Project>();
     invitations = new ArrayList<Invitation>();
@@ -63,10 +64,10 @@ public class UserRole
     return wasSet;
   }
 
-  public boolean setUserName(String aUserName)
+  public boolean setUserName(String aAccName)
   {
     boolean wasSet = false;
-    userName = aUserName;
+    userName = aAccName;
     wasSet = true;
     return wasSet;
   }
@@ -76,29 +77,33 @@ public class UserRole
     return password;
   }
 
+  @Id
   public String getUserName()
   {
     return userName;
   }
   /* Code from template association_GetOne */
   @ManyToOne
-  public User getUser()
+  public Account getUser()
   {
-    return user;
+    return acc;
   }
   /* Code from template association_GetMany */
-  @OneToMany
   public Project getProject(int index)
   {
     Project aProject = projects.get(index);
     return aProject;
   }
-
+  @OneToMany
   public List<Project> getProjects()
   {
     List<Project> newProjects = Collections.unmodifiableList(projects);
     return newProjects;
   }
+  public void setProjects(List<Project> projectList) {
+    this.projects = projectList;
+ }
+
 
   public int numberOfProjects()
   {
@@ -118,18 +123,22 @@ public class UserRole
     return index;
   }
   /* Code from template association_GetMany */
-  @OneToMany
   public Invitation getInvitation(int index)
   {
     Invitation aInvitation = invitations.get(index);
     return aInvitation;
   }
 
+  @OneToMany
   public List<Invitation> getInvitations()
   {
     List<Invitation> newInvitations = Collections.unmodifiableList(invitations);
     return newInvitations;
   }
+  public void setInvitations(List<Invitation> inviteList) {
+    this.invitations = inviteList;
+ }
+
 
   public int numberOfInvitations()
   {
@@ -149,18 +158,22 @@ public class UserRole
     return index;
   }
   /* Code from template association_GetMany */
-  @OneToMany
   public Ticket getTicket(int index)
   {
     Ticket aTicket = tickets.get(index);
     return aTicket;
   }
 
+  @OneToMany
   public List<Ticket> getTickets()
   {
     List<Ticket> newTickets = Collections.unmodifiableList(tickets);
     return newTickets;
   }
+  public void setTickets(List<Ticket> ticketList) {
+    this.tickets = ticketList;
+ }
+
 
   public int numberOfTickets()
   {
@@ -180,33 +193,33 @@ public class UserRole
     return index;
   }
   /* Code from template association_SetOneToAtMostN */
-  public boolean setUser(User aUser)
+  public boolean setUser(Account aAcc)
   {
     boolean wasSet = false;
-    //Must provide user to userRole
-    if (aUser == null)
+    //Must provide acc to userRole
+    if (aAcc == null)
     {
       return wasSet;
     }
 
-    //user already at maximum (3)
-    if (aUser.numberOfUserRoles() >= User.maximumNumberOfUserRoles())
+    //acc already at maximum (3)
+    if (aAcc.numberOfUserRoles() >= Account.maximumNumberOfUserRoles())
     {
       return wasSet;
     }
     
-    User existingUser = user;
-    user = aUser;
-    if (existingUser != null && !existingUser.equals(aUser))
+    Account existingUser = acc;
+    acc = aAcc;
+    if (existingUser != null && !existingUser.equals(aAcc))
     {
       boolean didRemove = existingUser.removeUserRole(this);
       if (!didRemove)
       {
-        user = existingUser;
+        acc = existingUser;
         return wasSet;
       }
     }
-    user.addUserRole(this);
+    acc.addUserRole(this);
     wasSet = true;
     return wasSet;
   }
@@ -429,8 +442,8 @@ public class UserRole
 
   public void delete()
   {
-    User placeholderUser = user;
-    this.user = null;
+    Account placeholderUser = acc;
+    this.acc = null;
     if(placeholderUser != null)
     {
       placeholderUser.removeUserRole(this);
@@ -458,6 +471,6 @@ public class UserRole
     return super.toString() + "["+
             "password" + ":" + getPassword()+ "," +
             "userName" + ":" + getUserName()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "user = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
+            "  " + "acc = "+(getUser()!=null?Integer.toHexString(System.identityHashCode(getUser())):"null");
   }
 }

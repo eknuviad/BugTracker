@@ -1,6 +1,11 @@
 package ca.mcgill.ecse321.bugtracker.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 // line 42 "../../../../BugTracker-Backend.ump"
+@Entity
 public class Invitation
 {
 
@@ -67,16 +72,19 @@ public class Invitation
     return invStatus;
   }
 
+  @Id
   public int getId()
   {
     return id;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public UserRole getUserRole()
   {
     return userRole;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public Project getProject()
   {
     return project;

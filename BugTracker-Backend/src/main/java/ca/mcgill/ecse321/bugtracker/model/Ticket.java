@@ -3,6 +3,9 @@ package ca.mcgill.ecse321.bugtracker.model;
 import java.sql.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 // line 60 "../../../../BugTracker-Backend.ump"
@@ -55,6 +58,17 @@ public class Ticket
   //------------------------
   // INTERFACE
   //------------------------
+  private int id;
+
+    public void setId(int value) {
+        this.id = value;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int getId() {
+        return this.id;
+    }
 
   public boolean setTicketStatus(TicketStatus aTicketStatus)
   {

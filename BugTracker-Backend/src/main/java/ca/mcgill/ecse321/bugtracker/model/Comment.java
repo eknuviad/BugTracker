@@ -2,7 +2,14 @@ package ca.mcgill.ecse321.bugtracker.model;
 
 import java.sql.Time;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+
 // line 50 "../../../../BugTracker-Backend.ump"
+@Entity
 public class Comment
 {
 
@@ -39,6 +46,17 @@ public class Comment
   //------------------------
   // INTERFACE
   //------------------------
+  private int id;
+
+    public void setId(int value) {
+        this.id = value;
+    }
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    public int getId() {
+        return this.id;
+    }
 
   public boolean setTimeStamp(Time aTimeStamp)
   {
@@ -66,11 +84,13 @@ public class Comment
     return message;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public UserRole getUserRole()
   {
     return userRole;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public Ticket getTicket()
   {
     return ticket;

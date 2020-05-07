@@ -3,6 +3,9 @@ package ca.mcgill.ecse321.bugtracker.model;
 import java.util.*;
 
 import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 // line 33 "../../../../BugTracker-Backend.ump"
 @Entity
@@ -71,11 +74,13 @@ public class Project
     return name;
   }
 
+  @Id
   public int getId()
   {
     return id;
   }
   /* Code from template association_GetOne */
+  @ManyToOne
   public UserRole getUserRole()
   {
     return userRole;
@@ -87,12 +92,15 @@ public class Project
     return aInvitation;
   }
 
+  @OneToMany
   public List<Invitation> getInvitations()
   {
     List<Invitation> newInvitations = Collections.unmodifiableList(invitations);
     return newInvitations;
   }
-
+  public void setInvitations(List<Invitation> inviteList) {
+    this.invitations = inviteList;
+ }
   public int numberOfInvitations()
   {
     int number = invitations.size();
@@ -117,11 +125,15 @@ public class Project
     return aT;
   }
 
-  public List<Ticket> getT()
+  @OneToMany
+  public List<Ticket> getTickets()
   {
     List<Ticket> newT = Collections.unmodifiableList(t);
     return newT;
   }
+  public void setTickets(List<Ticket> ticketList) {
+    this.t = ticketList;
+ }
 
   public int numberOfT()
   {

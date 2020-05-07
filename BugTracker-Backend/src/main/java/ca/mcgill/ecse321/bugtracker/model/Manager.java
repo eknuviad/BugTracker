@@ -1,7 +1,9 @@
 package ca.mcgill.ecse321.bugtracker.model;
 
+import javax.persistence.Entity;
 
 // line 12 "../../../../BugTracker-Backend.ump"
+@Entity
 public class Manager extends UserRole
 {
 
@@ -13,9 +15,9 @@ public class Manager extends UserRole
   // CONSTRUCTOR
   //------------------------
 
-  public Manager(String aPassword, String aUserName, User aUser)
+  public Manager(String aPassword, String aUserName, Account aAcc)
   {
-    super(aPassword, aUserName, aUser);
+    super(aPassword, aUserName, aAcc);
   }
 
   //------------------------
