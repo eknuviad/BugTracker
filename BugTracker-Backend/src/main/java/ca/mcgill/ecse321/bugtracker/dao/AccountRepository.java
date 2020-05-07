@@ -1,5 +1,9 @@
 package ca.mcgill.ecse321.bugtracker.dao;
+import org.springframework.data.repository.CrudRepository;
+import ca.mcgill.ecse321.bugtracker.model.Account;
 
-public class AccountRepository {
-    
+public interface AccountRepository extends CrudRepository<Account, String>{
+
+	//Account findAccountByName(String name);
+
 }
