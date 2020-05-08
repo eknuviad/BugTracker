@@ -43,19 +43,14 @@ public class Ticket
     description = aDescription;
     startDate = aStartDate;
     endDate = aEndDate;
-    boolean didAddUserRole = setUserRole(aUserRole);
-    if (!didAddUserRole)
-    {
-      throw new RuntimeException("Unable to create ticket due to userRole");
-    }
-    boolean didAddP = setP(aP);
-    if (!didAddP)
-    {
-      throw new RuntimeException("Unable to create t due to p");
-    }
+    this.userRole = aUserRole;
+    this.p = aP;
   }
 
-  //------------------------
+  public Ticket() {
+}
+
+//------------------------
   // INTERFACE
   //------------------------
   private int id;
@@ -122,54 +117,26 @@ public class Ticket
     return endDate;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  @ManyToOne(optional = false)
   public UserRole getUserRole()
   {
     return userRole;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  @ManyToOne(optional = false)
   public Project getP()
   {
     return p;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setUserRole(UserRole aUserRole)
+  public void setUserRole(UserRole aUserRole)
   {
-    boolean wasSet = false;
-    if (aUserRole == null)
-    {
-      return wasSet;
-    }
-
-    UserRole existingUserRole = userRole;
-    userRole = aUserRole;
-    if (existingUserRole != null && !existingUserRole.equals(aUserRole))
-    {
-      existingUserRole.removeTicket(this);
-    }
-    userRole.addTicket(this);
-    wasSet = true;
-    return wasSet;
+    this.userRole = aUserRole;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setP(Project aP)
+  public void setP(Project aP)
   {
-    boolean wasSet = false;
-    if (aP == null)
-    {
-      return wasSet;
-    }
-
-    Project existingP = p;
-    p = aP;
-    if (existingP != null && !existingP.equals(aP))
-    {
-      existingP.removeT(this);
-    }
-    p.addT(this);
-    wasSet = true;
-    return wasSet;
+    this.p = aP;
   }
 
   public void delete()

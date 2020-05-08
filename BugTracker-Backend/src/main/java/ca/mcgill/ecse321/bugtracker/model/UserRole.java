@@ -8,10 +8,13 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 // line 17 "../../../../BugTracker-Backend.ump"
 @Entity
-public class UserRole
+public abstract class UserRole
 {
 
   //------------------------
@@ -46,11 +49,7 @@ public class UserRole
   {
     password = aPassword;
     userName = aAccName;
-    boolean didAddUser = setUser(aAcc);
-    if (!didAddUser)
-    {
-      throw new RuntimeException("Unable to create userRole due to acc");
-    }
+    this.acc = aAcc;
     projects = new ArrayList<Project>();
     invitations = new ArrayList<Invitation>();
     tickets = new ArrayList<Ticket>();
@@ -87,6 +86,7 @@ public class UserRole
     return userName;
   }
   /* Code from template association_GetOne */
+  @OnDelete(action = OnDeleteAction.CASCADE)
   @ManyToOne (optional = false)
   public Account getUser()
   {
@@ -98,6 +98,8 @@ public class UserRole
     Project aProject = projects.get(index);
     return aProject;
   }
+
+  
   @OneToMany(cascade = CascadeType.REMOVE)
   public List<Project> getProjects()
   {
@@ -197,36 +199,11 @@ public class UserRole
     return index;
   }
   /* Code from template association_SetOneToAtMostN */
-  public boolean setUser(Account aAcc)
+  public void setUser(Account aAcc)
   {
-    boolean wasSet = false;
-    //Must provide acc to userRole
-    if (aAcc == null)
-    {
-      return wasSet;
-    }
-
-    //acc already at maximum (3)
-    if (aAcc.numberOfUserRoles() >= Account.maximumNumberOfUserRoles())
-    {
-      return wasSet;
-    }
-    
-    Account existingUser = acc;
-    acc = aAcc;
-    if (existingUser != null && !existingUser.equals(aAcc))
-    {
-      boolean didRemove = existingUser.removeUserRole(this);
-      if (!didRemove)
-      {
-        acc = existingUser;
-        return wasSet;
-      }
-    }
-    acc.addUserRole(this);
-    wasSet = true;
-    return wasSet;
+    this.acc = aAcc;
   }
+
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfProjects()
   {
@@ -235,7 +212,7 @@ public class UserRole
   /* Code from template association_AddManyToOne */
   public Project addProject(String aName, int aId)
   {
-    return new Project(aName, aId, this);
+    return new Project(aName, this);
   }
 
   public boolean addProject(Project aProject)
@@ -446,12 +423,6 @@ public class UserRole
 
   public void delete()
   {
-    Account placeholderUser = acc;
-    this.acc = null;
-    if(placeholderUser != null)
-    {
-      placeholderUser.removeUserRole(this);
-    }
     for(int i=projects.size(); i > 0; i--)
     {
       Project aProject = projects.get(i - 1);
