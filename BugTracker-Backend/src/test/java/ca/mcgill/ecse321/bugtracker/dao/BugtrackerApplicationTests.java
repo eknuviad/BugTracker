@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.bugtracker;
+package ca.mcgill.ecse321.bugtracker.dao;
 
 // import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

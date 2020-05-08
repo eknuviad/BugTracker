@@ -31,6 +31,10 @@ public class Invitation
   // CONSTRUCTOR
   //------------------------
 
+  public Invitation(){
+
+  }
+
   public Invitation(InvitationStatus aInvStatus, int aId, UserRole aUserRole, Project aProject)
   {
     invStatus = aInvStatus;
@@ -78,13 +82,13 @@ public class Invitation
     return id;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  @ManyToOne (optional = false)
   public UserRole getUserRole()
   {
     return userRole;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  @ManyToOne (optional = false)
   public Project getProject()
   {
     return project;

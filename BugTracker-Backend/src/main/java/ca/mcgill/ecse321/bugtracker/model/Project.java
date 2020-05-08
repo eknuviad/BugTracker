@@ -2,6 +2,7 @@ package ca.mcgill.ecse321.bugtracker.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
@@ -35,6 +36,10 @@ public class Project
   //------------------------
   // CONSTRUCTOR
   //------------------------
+
+  public Project(){
+
+  }
 
   public Project(String aName, int aId, UserRole aUserRole)
   {
@@ -80,7 +85,7 @@ public class Project
     return id;
   }
   /* Code from template association_GetOne */
-  @ManyToOne
+  @ManyToOne (optional = false)
   public UserRole getUserRole()
   {
     return userRole;
@@ -92,10 +97,10 @@ public class Project
     return aInvitation;
   }
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.REMOVE)
   public List<Invitation> getInvitations()
   {
-    List<Invitation> newInvitations = Collections.unmodifiableList(invitations);
+    List<Invitation> newInvitations = invitations;
     return newInvitations;
   }
   public void setInvitations(List<Invitation> inviteList) {
@@ -125,10 +130,10 @@ public class Project
     return aT;
   }
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.REMOVE)
   public List<Ticket> getTickets()
   {
-    List<Ticket> newT = Collections.unmodifiableList(t);
+    List<Ticket> newT = t;
     return newT;
   }
   public void setTickets(List<Ticket> ticketList) {
