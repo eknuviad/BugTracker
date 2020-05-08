@@ -12,20 +12,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import ca.mcgill.ecse321.bugtracker.dao.AccountRepository;
 
 import ca.mcgill.ecse321.bugtracker.dao.ManagerRepository;
-import ca.mcgill.ecse321.bugtracker.dao.UserRoleRepository;
 import ca.mcgill.ecse321.bugtracker.model.Manager;
 import ca.mcgill.ecse321.bugtracker.model.Account;
 
-@SpringBootTest
+@SpringBootTest //important tag for autowiring crud repository as a spring test
 public class ManagerTest {
     @Autowired
     private ManagerRepository managerRepository;
     
     @Autowired
     private AccountRepository accRepository;
-
-    @Autowired
-    private UserRoleRepository urRepository;
 
     private String accName = "Doe";
     private String email = "johnDoe@gmail.com";
@@ -34,10 +30,8 @@ public class ManagerTest {
     private String pass = "test123";
     private String userName = "johnDoe";
 
-    @BeforeEach
     @AfterEach
     public void clearDatabase(){       
-        // urRepository.deleteAll();
         managerRepository.deleteAll();
         accRepository.deleteAll();
     }

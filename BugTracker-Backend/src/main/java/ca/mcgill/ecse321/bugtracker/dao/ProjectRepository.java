@@ -7,5 +7,7 @@ import ca.mcgill.ecse321.bugtracker.model.Project;
 
 @Repository
 public interface ProjectRepository extends CrudRepository<Project, Integer> {
+
+	Project findProjectByName(String projName);
     
 }

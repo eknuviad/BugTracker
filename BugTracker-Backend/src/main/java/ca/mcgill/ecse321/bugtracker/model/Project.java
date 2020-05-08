@@ -7,6 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 // line 33 "../../../../BugTracker-Backend.ump"
 @Entity
 public class Project
@@ -40,11 +43,12 @@ public class Project
   {
     name = aName;
     id = aId;
-    boolean didAddUserRole = setUserRole(aUserRole);
-    if (!didAddUserRole)
-    {
-      throw new RuntimeException("Unable to create project due to userRole");
-    }
+    // boolean didAddUserRole = setUserRole(aUserRole);
+    this.userRole = aUserRole;
+    // if (!didAddUserRole)
+    // {
+    //   throw new RuntimeException("Unable to create project due to userRole");
+    // }
     invitations = new ArrayList<Invitation>();
     t = new ArrayList<Ticket>();
   }
@@ -53,7 +57,10 @@ public class Project
   // INTERFACE
   //------------------------
 
-  public boolean setName(String aName)
+  public Project() {
+}
+
+public boolean setName(String aName)
   {
     boolean wasSet = false;
     name = aName;
@@ -80,6 +87,7 @@ public class Project
     return id;
   }
   /* Code from template association_GetOne */
+  @OnDelete(action = OnDeleteAction.CASCADE)
   @ManyToOne
   public UserRole getUserRole()
   {
@@ -95,7 +103,7 @@ public class Project
   @OneToMany
   public List<Invitation> getInvitations()
   {
-    List<Invitation> newInvitations = Collections.unmodifiableList(invitations);
+    List<Invitation> newInvitations = invitations;
     return newInvitations;
   }
   public void setInvitations(List<Invitation> inviteList) {
@@ -128,7 +136,7 @@ public class Project
   @OneToMany
   public List<Ticket> getTickets()
   {
-    List<Ticket> newT = Collections.unmodifiableList(t);
+    List<Ticket> newT = t;
     return newT;
   }
   public void setTickets(List<Ticket> ticketList) {
@@ -153,23 +161,24 @@ public class Project
     return index;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setUserRole(UserRole aUserRole)
+  public void setUserRole(UserRole aUserRole)
   {
-    boolean wasSet = false;
-    if (aUserRole == null)
-    {
-      return wasSet;
-    }
+    this.userRole = aUserRole;
+    // boolean wasSet = false;
+    // if (aUserRole == null)
+    // {
+    //   return wasSet;
+    // }
 
-    UserRole existingUserRole = userRole;
-    userRole = aUserRole;
-    if (existingUserRole != null && !existingUserRole.equals(aUserRole))
-    {
-      existingUserRole.removeProject(this);
-    }
-    userRole.addProject(this);
-    wasSet = true;
-    return wasSet;
+    // UserRole existingUserRole = userRole;
+    // userRole = aUserRole;
+    // if (existingUserRole != null && !existingUserRole.equals(aUserRole))
+    // {
+    //   existingUserRole.removeProject(this);
+    // }
+    // userRole.addProject(this);
+    // wasSet = true;
+    // return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfInvitations()
