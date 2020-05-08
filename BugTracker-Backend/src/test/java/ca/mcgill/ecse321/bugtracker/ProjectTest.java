@@ -1,4 +1,4 @@
-package ca.mcgill.ecse321.bugtracker.dao;
+package ca.mcgill.ecse321.bugtracker;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -9,18 +9,22 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import ca.mcgill.ecse321.bugtracker.dao.AccountRepository;
-
 import ca.mcgill.ecse321.bugtracker.dao.ManagerRepository;
-import ca.mcgill.ecse321.bugtracker.model.Manager;
+import ca.mcgill.ecse321.bugtracker.dao.ProjectRepository;
 import ca.mcgill.ecse321.bugtracker.model.Account;
+import ca.mcgill.ecse321.bugtracker.model.Manager;
+import ca.mcgill.ecse321.bugtracker.model.Project;
 
-@SpringBootTest //important tag for autowiring crud repository as a spring test
-public class ManagerTest {
+@SpringBootTest
+public class ProjectTest {
     @Autowired
     private ManagerRepository managerRepository;
     
     @Autowired
     private AccountRepository accRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
 
     private String accName = "Doe";
     private String email = "johnDoe@gmail.com";
@@ -28,19 +32,23 @@ public class ManagerTest {
     private int phoneNum = 123;
     private String pass = "test123";
     private String userName = "johnDoe";
+    private String projName = "TestProject";
 
+    
     @AfterEach
-    public void clearDatabase(){       
+    public void clearDatabase(){  
+        projectRepository.deleteAll();     
         managerRepository.deleteAll();
         accRepository.deleteAll();
+        
     }
 
     /**
-     * Manager persistence test
+     * Project persistence test
      */
 
      @Test
-     public void persistAndLoadManager(){
+     public void persistAndLoadProject(){
         Account acc = new Account (accName, email, desc, phoneNum);
         accRepository.save(acc);
 
@@ -51,15 +59,19 @@ public class ManagerTest {
         
         managerRepository.save(manager); 
 
-        manager = null;
+        Project proj = new Project();
+        proj.setName(projName);
+        proj.setUserRole(manager);
 
-        manager = managerRepository.findManagerByUserName(userName);
-        assertNotNull(manager);
-        assertEquals(pass, manager.getPassword());
-        assertEquals (userName, manager.getUserName());
-        assertEquals (email, manager.getUser().getEmail());
+        projectRepository.save(proj);
+
+        proj = null;
+        proj = projectRepository.findProjectByName(projName);
+        assertNotNull(proj);
+        assertEquals(projName, proj.getName());
+        assertEquals (userName, proj.getUserRole().getUserName());
+        assertEquals (email, proj.getUserRole().getUser().getEmail());
     
 
      }
-    
 }
