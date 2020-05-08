@@ -212,7 +212,7 @@ public abstract class UserRole
   /* Code from template association_AddManyToOne */
   public Project addProject(String aName, int aId)
   {
-    return new Project(aName, aId, this);
+    return new Project(aName, this);
   }
 
   public boolean addProject(Project aProject)

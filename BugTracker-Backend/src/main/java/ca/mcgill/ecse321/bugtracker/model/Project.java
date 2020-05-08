@@ -2,7 +2,10 @@ package ca.mcgill.ecse321.bugtracker.model;
 
 import java.util.*;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -39,16 +42,10 @@ public class Project
   // CONSTRUCTOR
   //------------------------
 
-  public Project(String aName, int aId, UserRole aUserRole)
+  public Project(String aName, UserRole aUserRole)
   {
     name = aName;
-    id = aId;
-    // boolean didAddUserRole = setUserRole(aUserRole);
     this.userRole = aUserRole;
-    // if (!didAddUserRole)
-    // {
-    //   throw new RuntimeException("Unable to create project due to userRole");
-    // }
     invitations = new ArrayList<Invitation>();
     t = new ArrayList<Ticket>();
   }
@@ -60,6 +57,16 @@ public class Project
   public Project() {
 }
 
+public void setId(int value) {
+    this.id = value;
+}
+
+@Id
+@GeneratedValue(strategy = GenerationType.AUTO)
+public int getId() {
+    return this.id;
+}
+
 public boolean setName(String aName)
   {
     boolean wasSet = false;
@@ -68,24 +75,12 @@ public boolean setName(String aName)
     return wasSet;
   }
 
-  public boolean setId(int aId)
-  {
-    boolean wasSet = false;
-    id = aId;
-    wasSet = true;
-    return wasSet;
-  }
 
   public String getName()
   {
     return name;
   }
 
-  @Id
-  public int getId()
-  {
-    return id;
-  }
   /* Code from template association_GetOne */
   @OnDelete(action = OnDeleteAction.CASCADE)
   @ManyToOne
@@ -100,7 +95,7 @@ public boolean setName(String aName)
     return aInvitation;
   }
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.REMOVE)
   public List<Invitation> getInvitations()
   {
     List<Invitation> newInvitations = invitations;
@@ -133,7 +128,7 @@ public boolean setName(String aName)
     return aT;
   }
 
-  @OneToMany
+  @OneToMany(cascade = CascadeType.REMOVE)
   public List<Ticket> getTickets()
   {
     List<Ticket> newT = t;
@@ -164,21 +159,6 @@ public boolean setName(String aName)
   public void setUserRole(UserRole aUserRole)
   {
     this.userRole = aUserRole;
-    // boolean wasSet = false;
-    // if (aUserRole == null)
-    // {
-    //   return wasSet;
-    // }
-
-    // UserRole existingUserRole = userRole;
-    // userRole = aUserRole;
-    // if (existingUserRole != null && !existingUserRole.equals(aUserRole))
-    // {
-    //   existingUserRole.removeProject(this);
-    // }
-    // userRole.addProject(this);
-    // wasSet = true;
-    // return wasSet;
   }
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfInvitations()
