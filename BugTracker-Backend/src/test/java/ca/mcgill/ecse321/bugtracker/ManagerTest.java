@@ -14,7 +14,6 @@ import ca.mcgill.ecse321.bugtracker.dao.AccountRepository;
 import ca.mcgill.ecse321.bugtracker.dao.ManagerRepository;
 import ca.mcgill.ecse321.bugtracker.dao.UserRoleRepository;
 import ca.mcgill.ecse321.bugtracker.model.Manager;
-import ca.mcgill.ecse321.bugtracker.model.UserRole;
 import ca.mcgill.ecse321.bugtracker.model.Account;
 
 @SpringBootTest
@@ -35,12 +34,12 @@ public class ManagerTest {
     private String pass = "test123";
     private String userName = "johnDoe";
 
-    
+    @BeforeEach
     @AfterEach
     public void clearDatabase(){       
-        accRepository.deleteAll();
-        urRepository.deleteAll();
+        // urRepository.deleteAll();
         managerRepository.deleteAll();
+        accRepository.deleteAll();
     }
 
     /**

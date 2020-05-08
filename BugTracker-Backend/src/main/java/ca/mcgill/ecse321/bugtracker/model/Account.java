@@ -24,7 +24,7 @@ public class Account {
   private int phoneNumber;
 
   // User Associations
-  private List<UserRole> userRoles;
+  // private List<UserRole> userRoles;
 
   // ------------------------
   // CONSTRUCTOR
@@ -38,7 +38,7 @@ public class Account {
     email = aEmail;
     description = aDescription;
     phoneNumber = aPhoneNumber;
-    userRoles = new ArrayList<UserRole>();
+    // userRoles = new ArrayList<UserRole>();
   }
 
   // ------------------------
@@ -91,36 +91,36 @@ public class Account {
   }
 
   /* Code from template association_GetMany */
-  public UserRole getUserRole(int index) {
-    UserRole aUserRole = userRoles.get(index);
-    return aUserRole;
-  }
+  // public UserRole getUserRole(int index) {
+  //   UserRole aUserRole = userRoles.get(index);
+  //   return aUserRole;
+  // }
 
-  @JsonManagedReference
-   @OneToMany(cascade = CascadeType.REMOVE)
-  public List<UserRole> getUserRoles() {
-    List<UserRole> newUserRoles = userRoles;
-    return newUserRoles;
-  }
+  // @JsonManagedReference
+  //  @OneToMany(cascade = CascadeType.REMOVE)
+  // public List<UserRole> getUserRoles() {
+  //   List<UserRole> newUserRoles = userRoles;
+  //   return newUserRoles;
+  // }
 
-  public void setUserRoles(List<UserRole> roles) {
-    this.userRoles = roles;
-  }
+  // public void setUserRoles(List<UserRole> roles) {
+  //   this.userRoles = roles;
+  // }
 
-  public int numberOfUserRoles() {
-    int number = userRoles.size();
-    return number;
-  }
+  // public int numberOfUserRoles() {
+  //   int number = userRoles.size();
+  //   return number;
+  // }
 
-  public boolean hasUserRoles() {
-    boolean has = userRoles.size() > 0;
-    return has;
-  }
+  // public boolean hasUserRoles() {
+  //   boolean has = userRoles.size() > 0;
+  //   return has;
+  // }
 
-  public int indexOfUserRole(UserRole aUserRole) {
-    int index = userRoles.indexOf(aUserRole);
-    return index;
-  }
+  // public int indexOfUserRole(UserRole aUserRole) {
+  //   int index = userRoles.indexOf(aUserRole);
+  //   return index;
+  // }
 
   /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfUserRoles() {
@@ -133,89 +133,89 @@ public class Account {
   }
 
   /* Code from template association_AddOptionalNToOne */
-  public UserRole addUserRole(String aPassword, String aUserName) {
-    if (numberOfUserRoles() >= maximumNumberOfUserRoles()) {
-      return null;
-    } else {
-      return new UserRole(aPassword, aUserName, this);
-    }
-  }
+  // public UserRole addUserRole(String aPassword, String aUserName) {
+  //   if (numberOfUserRoles() >= maximumNumberOfUserRoles()) {
+  //     return null;
+  //   } else {
+  //     return new UserRole(aPassword, aUserName, this);
+  //   }
+  // }
 
-  public boolean addUserRole(UserRole aUserRole) {
-    boolean wasAdded = false;
-    if (userRoles.contains(aUserRole)) {
-      return false;
-    }
-    if (numberOfUserRoles() >= maximumNumberOfUserRoles()) {
-      return wasAdded;
-    }
+  // public boolean addUserRole(UserRole aUserRole) {
+  //   boolean wasAdded = false;
+  //   if (userRoles.contains(aUserRole)) {
+  //     return false;
+  //   }
+  //   if (numberOfUserRoles() >= maximumNumberOfUserRoles()) {
+  //     return wasAdded;
+  //   }
 
-    Account existingUser = aUserRole.getUser();
-    boolean isNewUser = existingUser != null && !this.equals(existingUser);
-    if (isNewUser)
-    {
-      aUserRole.setUser(this);
-    }
-    else
-    {
-      userRoles.add(aUserRole);
-    }
-    wasAdded = true;
-    return wasAdded;
-  }
+  //   Account existingUser = aUserRole.getUser();
+  //   boolean isNewUser = existingUser != null && !this.equals(existingUser);
+  //   if (isNewUser)
+  //   {
+  //     aUserRole.setUser(this);
+  //   }
+  //   else
+  //   {
+  //     userRoles.add(aUserRole);
+  //   }
+  //   wasAdded = true;
+  //   return wasAdded;
+  // }
 
-  public boolean removeUserRole(UserRole aUserRole)
-  {
-    boolean wasRemoved = false;
-    //Unable to remove aUserRole, as it must always have a user
-    if (!this.equals(aUserRole.getUser()))
-    {
-      userRoles.remove(aUserRole);
-      wasRemoved = true;
-    }
-    return wasRemoved;
-  }
+  // public boolean removeUserRole(UserRole aUserRole)
+  // {
+  //   boolean wasRemoved = false;
+  //   //Unable to remove aUserRole, as it must always have a user
+  //   if (!this.equals(aUserRole.getUser()))
+  //   {
+  //     userRoles.remove(aUserRole);
+  //     wasRemoved = true;
+  //   }
+  //   return wasRemoved;
+  // }
   /* Code from template association_AddIndexControlFunctions */
-  public boolean addUserRoleAt(UserRole aUserRole, int index)
-  {  
-    boolean wasAdded = false;
-    if(addUserRole(aUserRole))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfUserRoles()) { index = numberOfUserRoles() - 1; }
-      userRoles.remove(aUserRole);
-      userRoles.add(index, aUserRole);
-      wasAdded = true;
-    }
-    return wasAdded;
-  }
+  // public boolean addUserRoleAt(UserRole aUserRole, int index)
+  // {  
+  //   boolean wasAdded = false;
+  //   if(addUserRole(aUserRole))
+  //   {
+  //     if(index < 0 ) { index = 0; }
+  //     if(index > numberOfUserRoles()) { index = numberOfUserRoles() - 1; }
+  //     userRoles.remove(aUserRole);
+  //     userRoles.add(index, aUserRole);
+  //     wasAdded = true;
+  //   }
+  //   return wasAdded;
+  // }
 
-  public boolean addOrMoveUserRoleAt(UserRole aUserRole, int index)
-  {
-    boolean wasAdded = false;
-    if(userRoles.contains(aUserRole))
-    {
-      if(index < 0 ) { index = 0; }
-      if(index > numberOfUserRoles()) { index = numberOfUserRoles() - 1; }
-      userRoles.remove(aUserRole);
-      userRoles.add(index, aUserRole);
-      wasAdded = true;
-    } 
-    else 
-    {
-      wasAdded = addUserRoleAt(aUserRole, index);
-    }
-    return wasAdded;
-  }
+  // public boolean addOrMoveUserRoleAt(UserRole aUserRole, int index)
+  // {
+  //   boolean wasAdded = false;
+  //   if(userRoles.contains(aUserRole))
+  //   {
+  //     if(index < 0 ) { index = 0; }
+  //     if(index > numberOfUserRoles()) { index = numberOfUserRoles() - 1; }
+  //     userRoles.remove(aUserRole);
+  //     userRoles.add(index, aUserRole);
+  //     wasAdded = true;
+  //   } 
+  //   else 
+  //   {
+  //     wasAdded = addUserRoleAt(aUserRole, index);
+  //   }
+  //   return wasAdded;
+  // }
 
-  public void delete()
-  {
-    for(int i=userRoles.size(); i > 0; i--)
-    {
-      UserRole aUserRole = userRoles.get(i - 1);
-      aUserRole.delete();
-    }
-  }
+  // public void delete()
+  // {
+  //   for(int i=userRoles.size(); i > 0; i--)
+  //   {
+  //     UserRole aUserRole = userRoles.get(i - 1);
+  //     aUserRole.delete();
+  //   }
+  // }
 
 
   public String toString()
