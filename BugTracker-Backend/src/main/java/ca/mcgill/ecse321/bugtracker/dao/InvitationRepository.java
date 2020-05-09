@@ -1,9 +1,20 @@
 package ca.mcgill.ecse321.bugtracker.dao;
+
+import java.util.List;
+
 import org.springframework.data.repository.CrudRepository;
+
+
 import ca.mcgill.ecse321.bugtracker.model.Invitation;
+import ca.mcgill.ecse321.bugtracker.model.*;
 
-public interface InvitationRepository extends CrudRepository<Invitation, String>{
+public interface InvitationRepository extends CrudRepository<Invitation, Integer>{
 
-	//Invitation findAccountByName(String name);
+	// Invitation findInvitationById(int id);
+
+	List<Invitation> findByProject(Project projectName);
+	boolean existsByProjectAndUserRole(Project prjectName, UserRole userRoleName);
+
+	Invitation findByProjectAndUserRole(Project projectName, UserRole userRoleName);
 
 }

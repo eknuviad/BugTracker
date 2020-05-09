@@ -4,6 +4,8 @@ import ca.mcgill.ecse321.bugtracker.model.Account;
 
 public interface AccountRepository extends CrudRepository<Account, String>{
 
+	Account findAccountByEmail(String email);
+
 	//Account findAccountByName(String name);
 
 }

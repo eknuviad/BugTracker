@@ -42,8 +42,8 @@ public class Project
   // CONSTRUCTOR
   //------------------------
 
-  public Project(String aName, UserRole aUserRole)
-  {
+
+  public Project(String aName, UserRole aUserRole)  {
     name = aName;
     this.userRole = aUserRole;
     invitations = new ArrayList<Invitation>();
