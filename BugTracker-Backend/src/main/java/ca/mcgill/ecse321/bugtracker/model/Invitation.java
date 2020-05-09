@@ -1,8 +1,12 @@
 package ca.mcgill.ecse321.bugtracker.model;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.GenericGenerator;
 
 // line 42 "../../../../BugTracker-Backend.ump"
 @Entity
@@ -21,8 +25,10 @@ public class Invitation
 
   //Invitation Attributes
   private InvitationStatus invStatus;
-  private int id;
 
+  // @Id
+  // @GeneratedValue(strategy = GenerationType.AUTO)
+	private int id;
   //Invitation Associations
   private UserRole userRole;
   private Project project;
@@ -35,20 +41,22 @@ public class Invitation
 
   }
 
-  public Invitation(InvitationStatus aInvStatus, int aId, UserRole aUserRole, Project aProject)
+  public Invitation(InvitationStatus aInvStatus, UserRole aUserRole, Project aProject)
   {
     invStatus = aInvStatus;
-    id = aId;
-    boolean didAddUserRole = setUserRole(aUserRole);
-    if (!didAddUserRole)
-    {
-      throw new RuntimeException("Unable to create invitation due to userRole");
-    }
-    boolean didAddProject = setProject(aProject);
-    if (!didAddProject)
-    {
-      throw new RuntimeException("Unable to create invitation due to project");
-    }
+    // id = aId;
+    this.userRole = aUserRole;
+    this.project = aProject;
+    // boolean didAddUserRole = setUserRole(aUserRole);
+    // if (!didAddUserRole)
+    // {
+    //   throw new RuntimeException("Unable to create invitation due to userRole");
+    // }
+    // boolean didAddProject = setProject(aProject);
+    // if (!didAddProject)
+    // {
+    //   throw new RuntimeException("Unable to create invitation due to project");
+    // }
   }
 
   //------------------------
@@ -63,12 +71,13 @@ public class Invitation
     return wasSet;
   }
 
-  public boolean setId(int aId)
+  public void setId(int aId)
   {
-    boolean wasSet = false;
-    id = aId;
-    wasSet = true;
-    return wasSet;
+    this.id = aId;
+    // boolean wasSet = false;
+    // id = aId;
+    // wasSet = true;
+    // return wasSet;
   }
 
   public InvitationStatus getInvStatus()
@@ -77,6 +86,7 @@ public class Invitation
   }
 
   @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   public int getId()
   {
     return id;
@@ -94,42 +104,48 @@ public class Invitation
     return project;
   }
   /* Code from template association_SetOneToMany */
-  public boolean setUserRole(UserRole aUserRole)
+  public void setUserRole(UserRole aUserRole)
   {
-    boolean wasSet = false;
-    if (aUserRole == null)
-    {
-      return wasSet;
-    }
-
-    UserRole existingUserRole = userRole;
-    userRole = aUserRole;
-    if (existingUserRole != null && !existingUserRole.equals(aUserRole))
-    {
-      existingUserRole.removeInvitation(this);
-    }
-    userRole.addInvitation(this);
-    wasSet = true;
-    return wasSet;
+    this.userRole = aUserRole;
   }
-  /* Code from template association_SetOneToMany */
-  public boolean setProject(Project aProject)
-  {
-    boolean wasSet = false;
-    if (aProject == null)
-    {
-      return wasSet;
-    }
+  // public boolean setUserRole(UserRole aUserRole)
+  // {
+  //   boolean wasSet = false;
+  //   if (aUserRole == null)
+  //   {
+  //     return wasSet;
+  //   }
 
-    Project existingProject = project;
-    project = aProject;
-    if (existingProject != null && !existingProject.equals(aProject))
-    {
-      existingProject.removeInvitation(this);
-    }
-    project.addInvitation(this);
-    wasSet = true;
-    return wasSet;
+  //   UserRole existingUserRole = userRole;
+  //   userRole = aUserRole;
+  //   if (existingUserRole != null && !existingUserRole.equals(aUserRole))
+  //   {
+  //     existingUserRole.removeInvitation(this);
+  //   }
+  //   userRole.addInvitation(this);
+  //   wasSet = true;
+  //   return wasSet;
+  // }
+
+  /* Code from template association_SetOneToMany */
+  public void setProject(Project aProject)
+  {
+    this.project = aProject;
+    // boolean wasSet = false;
+    // if (aProject == null)
+    // {
+    //   return wasSet;
+    // }
+
+    // Project existingProject = project;
+    // project = aProject;
+    // if (existingProject != null && !existingProject.equals(aProject))
+    // {
+    //   existingProject.removeInvitation(this);
+    // }
+    // project.addInvitation(this);
+    // wasSet = true;
+    // return wasSet;
   }
 
   public void delete()

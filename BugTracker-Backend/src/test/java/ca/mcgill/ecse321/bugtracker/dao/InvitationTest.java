@@ -26,6 +26,15 @@ public class InvitationTest {
     @Autowired
     private InvitationRepository invitationRepository;
 
+    @Autowired
+    private ManagerRepository managerRepository;
+
+    @Autowired
+    private ProjectRepository projectRepository;
+
+    @Autowired
+    private AccountRepository accountRepository;
+
     private String accName = "He";
     private String email = "ziruiHe@gmail.com";
     private String desc = "Testing my account";
@@ -41,23 +50,28 @@ public class InvitationTest {
     @Test
     public void testInvitation(){
         Account acc = new Account (accName, email, desc, phoneNum);
+        accountRepository.save(acc);
+
 
         Manager manager = new Manager();
         manager.setUser(acc);
         manager.setPassword(pass);
         manager.setUserName(userName);
+        managerRepository.save(manager);
 
         Project project = new Project();
-        project.setId(357);
         project.setUserRole(manager);
+        projectRepository.save(project);
 
-        Integer id = 123;
-        Invitation invitation = new Invitation(InvitationStatus.NewInvite, id, manager, project);
+        Invitation invitation = new Invitation(InvitationStatus.NewInvite, manager, project);
         invitationRepository.save(invitation);
         invitation = null;
-        invitation = invitationRepository.findInvitationById(id);
+        //invitation = invitationRepository.findInvitationById(id);
+        invitation = invitationRepository.findByProjectAndUserRole(project, manager);
         assertNotNull(invitation);
-        assertEquals(id, invitation.getId());
+        assertEquals(project.getName(), invitation.getProject().getName());
+        assertEquals(manager.getUser().getName(), invitation.getUserRole().getUser().getName());
+        assertEquals(InvitationStatus.NewInvite, invitation.getInvStatus());
     }    
     
 }
