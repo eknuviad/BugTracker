@@ -28,6 +28,9 @@ public class Comment
   //------------------------
   // CONSTRUCTOR
   //------------------------
+  public Comment() {
+    
+  }
 
   public Comment(Time aTimeStamp, String aMessage, UserRole aUserRole, Ticket aTicket)
   {
