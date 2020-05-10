@@ -6,8 +6,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
-import org.hibernate.annotations.GenericGenerator;
-
 // line 42 "../../../../BugTracker-Backend.ump"
 @Entity
 public class Invitation

@@ -8,9 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import ca.mcgill.ecse321.bugtracker.dao.AccountRepository;
 
-import ca.mcgill.ecse321.bugtracker.dao.ManagerRepository;
 import ca.mcgill.ecse321.bugtracker.model.Manager;
 import ca.mcgill.ecse321.bugtracker.model.Account;
 

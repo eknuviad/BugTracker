@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.bugtracker.dao.InvitationRepository;
 import ca.mcgill.ecse321.bugtracker.model.Account;
 import ca.mcgill.ecse321.bugtracker.model.Invitation;
 import ca.mcgill.ecse321.bugtracker.model.Manager;

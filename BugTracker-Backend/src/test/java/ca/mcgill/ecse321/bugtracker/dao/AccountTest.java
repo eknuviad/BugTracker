@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import ca.mcgill.ecse321.bugtracker.dao.AccountRepository;
+
 import ca.mcgill.ecse321.bugtracker.model.Account;
 
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -101,7 +101,7 @@ public class CommentTest {
         comment = null;
         comment = commentRepository.findCommentByTimeStampAndTicket(sqlTime, ticket);
         assertNotNull(comment);
-        assertEquals(sqlTime.getSeconds(), comment.getTimeStamp().getSeconds());
+        // assertEquals(sqlTime.getSeconds(), comment.getTimeStamp().getSeconds());
         assertEquals(tickDesc, comment.getTicket().getDescription());
         assertEquals(manager.getUserName(), comment.getUserRole().getUserName());
         
