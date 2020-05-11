@@ -226,6 +226,9 @@ public class UserRoleService {
         }else{
             error = error + "This user role does not exist.";
         }
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
     }
 
     /**
