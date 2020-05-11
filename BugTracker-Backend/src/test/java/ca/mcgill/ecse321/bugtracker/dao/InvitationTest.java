@@ -33,6 +33,8 @@ public class InvitationTest {
 
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private UserRoleRepository userRepository;
 
     private String accName = "He";
     private String email = "ziruiHe@gmail.com";
@@ -44,6 +46,9 @@ public class InvitationTest {
     @AfterEach
     public void clearDatabase() {
         invitationRepository.deleteAll();
+        userRepository.deleteAll();
+        accountRepository.deleteAll();
+        projectRepository.deleteAll();
     }
 
     @Test

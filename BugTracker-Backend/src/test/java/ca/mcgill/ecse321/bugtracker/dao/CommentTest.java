@@ -42,6 +42,8 @@ public class CommentTest {
 
     @Autowired
     private TicketRepository ticketRepository;
+    @Autowired
+    private UserRoleRepository userRepository;
 
     private String accName = "He";
     private String email = "ziruiHe@gmail.com";
@@ -59,6 +61,8 @@ public class CommentTest {
     public void clearDatabase() {
         commentRepository.deleteAll();
         ticketRepository.deleteAll();
+        projectRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
