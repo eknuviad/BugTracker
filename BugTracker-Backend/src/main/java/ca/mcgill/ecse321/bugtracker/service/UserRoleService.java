@@ -14,6 +14,7 @@ import ca.mcgill.ecse321.bugtracker.dao.ManagerRepository;
 import ca.mcgill.ecse321.bugtracker.dao.UserRoleRepository;
 import ca.mcgill.ecse321.bugtracker.model.Account;
 import ca.mcgill.ecse321.bugtracker.model.Admin;
+import ca.mcgill.ecse321.bugtracker.model.Developer;
 import ca.mcgill.ecse321.bugtracker.model.Manager;
 
 /**
@@ -102,6 +103,41 @@ public class UserRoleService {
         adminRepository.save(admin);
 
         return admin;
+    }
+
+    @Transactional
+    public Developer createDeveloperRoleByAccount(String password, String usrName, Account acc){
+        String error = "";
+        //null checks
+        if(acc == null){
+            error = error + "The account to create a Developer cannot be empty.";
+        }
+        if(password == null || password.trim().length() == 0){
+            error = error + "The Developer password cannot be empty or have spaces.";
+        }
+        if(usrName == null || usrName.trim().length() == 0){
+            error = error + "The Developer username cannot be empty or have spaces.";
+        }
+        //check if username already exists
+        if(userRoleRepository.existsByUsername(usrName)){ 
+            error = error + "This Developer username is already taken.";
+        }
+        if(error.length() > 0){
+            throw new IllegalArgumentException(error);
+        }
+        String email = acc.getEmail();
+        Account foundAcc = accRepository.findAccountByEmail(email);
+        if(foundAcc == null){
+            throw new NullPointerException("No such account exists to create Developer role.");
+        }
+        Developer dev = new Developer();
+        dev.setPassword(password);
+        dev.setUserName(usrName);
+        dev.setUser(acc);
+
+        devRepository.save(dev);
+
+        return dev;
     }
 
     /**

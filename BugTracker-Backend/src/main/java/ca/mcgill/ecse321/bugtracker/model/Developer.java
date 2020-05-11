@@ -24,7 +24,10 @@ public class Developer extends UserRole
   // INTERFACE
   //------------------------
 
-  public void delete()
+  public Developer() {
+}
+
+public void delete()
   {
     super.delete();
   }
