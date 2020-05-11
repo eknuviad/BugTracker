@@ -7,5 +7,7 @@ import ca.mcgill.ecse321.bugtracker.model.UserRole;
 
 @Repository
 public interface UserRoleRepository extends CrudRepository<UserRole, String>{
+
+	boolean existsByUsername(String usrName);
     
 }
