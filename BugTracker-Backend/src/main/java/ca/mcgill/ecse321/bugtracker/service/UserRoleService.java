@@ -13,6 +13,7 @@ import ca.mcgill.ecse321.bugtracker.dao.DeveloperRepository;
 import ca.mcgill.ecse321.bugtracker.dao.ManagerRepository;
 import ca.mcgill.ecse321.bugtracker.dao.UserRoleRepository;
 import ca.mcgill.ecse321.bugtracker.model.Account;
+import ca.mcgill.ecse321.bugtracker.model.Admin;
 import ca.mcgill.ecse321.bugtracker.model.Manager;
 
 /**
@@ -38,17 +39,17 @@ public class UserRoleService {
         String error = "";
         //null checks
         if(acc == null){
-            error = error + "The account for this user role cannot be empty.";
+            error = error + "The account to create a Manager cannot be empty.";
         }
         if(password == null || password.trim().length() == 0){
-            error = error + "The password cannot be empty or have spaces.";
+            error = error + "The Manager password cannot be empty or have spaces.";
         }
         if(usrName == null || usrName.trim().length() == 0){
-            error = error + "The username cannot be empty or have spaces.";
+            error = error + "The Manager username cannot be empty or have spaces.";
         }
         //check if username already exists
         if(userRoleRepository.existsByUsername(usrName)){ 
-            error = error + "This username is already taken.";
+            error = error + "This Manager username is already taken.";
         }
         if(error.length() > 0){
             throw new IllegalArgumentException(error);
@@ -66,6 +67,41 @@ public class UserRoleService {
         managerRepository.save(manager);
 
         return manager;
+    }
+
+    @Transactional
+    public Admin createAdminRoleByAccount(String password, String usrName, Account acc){
+        String error = "";
+        //null checks
+        if(acc == null){
+            error = error + "The account to create an Admin cannot be empty.";
+        }
+        if(password == null || password.trim().length() == 0){
+            error = error + "The Admin password cannot be empty or have spaces.";
+        }
+        if(usrName == null || usrName.trim().length() == 0){
+            error = error + "The Admin username cannot be empty or have spaces.";
+        }
+        //check if username already exists
+        if(userRoleRepository.existsByUsername(usrName)){ 
+            error = error + "This Admin username is already taken.";
+        }
+        if(error.length() > 0){
+            throw new IllegalArgumentException(error);
+        }
+        String email = acc.getEmail();
+        Account foundAcc = accRepository.findAccountByEmail(email);
+        if(foundAcc == null){
+            throw new NullPointerException("No such account exists to create Admin role.");
+        }
+        Admin admin = new Admin();
+        admin.setPassword(password);
+        admin.setUserName(usrName);
+        admin.setUser(acc);
+
+        adminRepository.save(admin);
+
+        return admin;
     }
 
     /**
