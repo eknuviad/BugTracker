@@ -49,13 +49,17 @@ public class UserRoleService {
             error = error + "The Manager username cannot be empty or have spaces.";
         }
         // check if username already exists
-        if (managerRepository.existsByUserName(usrName)) {
-            error = error + "This Manager username is already taken.";
+        String email = acc.getEmail();
+        if (managerRepository.existsByUserName(usrName)) {// do not do this via userrole repository because user role is an abstract class
+            if (managerRepository.findManagerByUserName(usrName).getUser().getEmail().equals(email)) {
+                throw new IllegalArgumentException("A manager profile already exists for this account.");
+            } else {
+                error = error + "This Manager username is already taken.";
+            }
         }
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-        String email = acc.getEmail();
         Account foundAcc = accRepository.findAccountByEmail(email);
         if (foundAcc == null) {
             throw new NullPointerException("No such account exists to create Manager role.");
@@ -84,14 +88,17 @@ public class UserRoleService {
             error = error + "The Admin username cannot be empty or have spaces.";
         }
         // check if username already exists
-        if (adminRepository.existsByUserName(usrName)) { // do not do this via userrole repository because user role is
-                                                         // an abstract class
-            error = error + "This Admin username is already taken.";
+        String email = acc.getEmail();
+        if (adminRepository.existsByUserName(usrName)) { 
+            if (adminRepository.findAdminByUserName(usrName).getUser().getEmail().equals(email)) {
+                throw new IllegalArgumentException("An Admin profile already exists for this account.");
+            } else {
+                error = error + "This Admin username is already taken.";
+            }
         }
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-        String email = acc.getEmail();
         Account foundAcc = accRepository.findAccountByEmail(email);
         if (foundAcc == null) {
             throw new NullPointerException("No such account exists to create Admin role.");
@@ -120,13 +127,17 @@ public class UserRoleService {
             error = error + "The Developer username cannot be empty or have spaces.";
         }
         // check if username already exists
-        if(devRepository.existsByUserName(usrName)){
-        error = error + "This Developer username is already taken.";
+        String email = acc.getEmail();
+        if (devRepository.existsByUserName(usrName)) {
+            if (devRepository.findDeveloperByUserName(usrName).getUser().getEmail().equals(email)) {
+                throw new IllegalArgumentException("A Developer profile already exists for this account.");
+            } else {
+                error = error + "This Developer username is already taken.";
+            }
         }
         if (error.length() > 0) {
             throw new IllegalArgumentException(error);
         }
-        String email = acc.getEmail();
         Account foundAcc = accRepository.findAccountByEmail(email);
         if (foundAcc == null) {
             throw new NullPointerException("No such account exists to create Developer role.");
@@ -142,39 +153,41 @@ public class UserRoleService {
     }
 
     @Transactional
-    public List<UserRole> getAllUserRolesByAccount(Account acc){
-    Account foundAcc = accRepository.findAccountByEmail(acc.getEmail());
-    if(foundAcc == null){
-    throw new NullPointerException("No such account exists.");
-    }
-    List<UserRole> urList = new ArrayList<>();
-    if(managerRepository.findByUserEmail(acc.getEmail()) != null){
-        urList.add(managerRepository.findByUserEmail(acc.getEmail()));
-    }
-    if(adminRepository.findByUserEmail(acc.getEmail()) != null){
-        urList.add(adminRepository.findByUserEmail(acc.getEmail()));
-    }
-    if(devRepository.findByUserEmail(acc.getEmail()) != null){
-        urList.add(devRepository.findByUserEmail(acc.getEmail()));
-    }
-    return toList(urList);
+    public List<UserRole> getAllUserRolesByAccount(Account acc) {
+        Account foundAcc = accRepository.findAccountByEmail(acc.getEmail());
+        if (foundAcc == null) {
+            throw new NullPointerException("No such account exists.");
+        }
+        List<UserRole> urList = new ArrayList<>();
+        if (managerRepository.findByUserEmail(acc.getEmail()) != null) {
+            urList.add(managerRepository.findByUserEmail(acc.getEmail()));
+        }
+        if (adminRepository.findByUserEmail(acc.getEmail()) != null) {
+            urList.add(adminRepository.findByUserEmail(acc.getEmail()));
+        }
+        if (devRepository.findByUserEmail(acc.getEmail()) != null) {
+            urList.add(devRepository.findByUserEmail(acc.getEmail()));
+        }
+        return toList(urList);
     }
 
     @Transactional
-    public List<Manager> getAllManagers(){
+    public List<Manager> getAllManagers() {
         return toList(managerRepository.findAll());
     }
+
     @Transactional
-    public List<Admin> getAllAdmins(){
+    public List<Admin> getAllAdmins() {
         return toList(adminRepository.findAll());
     }
+
     @Transactional
-    public List<Developer> getAllDevelopers(){
+    public List<Developer> getAllDevelopers() {
         return toList(devRepository.findAll());
     }
 
     @Transactional
-    public UserRole getUserRoleByPasswordAndUserName(String password, String userName){
+    public UserRole getUserRoleByPasswordAndUserName(String password, String userName) {
         String error = "";
         // null checks
         if (password == null || password.trim().length() == 0) {
@@ -187,14 +200,40 @@ public class UserRoleService {
             throw new IllegalArgumentException(error);
         }
         UserRole ur = userRoleRepository.findByPasswordAndUserName(password, userName);
-        if(ur == null){
+        if (ur == null) {
             throw new NullPointerException("No user role exists.");
         }
 
         return ur;
-
     }
 
+    @Transactional
+    // public boolean updateUserRole(String password, String userName, Account acc){
+    // String error = "";
+    // // null checks
+    // if (acc == null) {
+    // error = error + "The account to create a Manager cannot be empty.";
+    // }
+    // if (password == null || password.trim().length() == 0) {
+    // error = error + "The Manager password cannot be empty or have spaces.";
+    // }
+    // if (usrName == null || usrName.trim().length() == 0) {
+    // error = error + "The Manager username cannot be empty or have spaces.";
+    // }
+    // // check if username already exists
+    // if (managerRepository.existsByUserName(usrName)) {
+    // error = error + "This Manager username is already taken.";
+    // }
+    // if (error.length() > 0) {
+    // throw new IllegalArgumentException(error);
+    // }
+    // String email = acc.getEmail();
+    // Account foundAcc = accRepository.findAccountByEmail(email);
+    // if (foundAcc == null) {
+    // throw new NullPointerException("No such account exists to create Manager
+    // role.");
+    // }
+    // }
 
     /**
      *

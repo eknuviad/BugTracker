@@ -9,6 +9,8 @@ public interface DeveloperRepository extends CrudRepository<Developer, String>{
 
 	UserRole findByUserEmail(String email);
 
+	UserRole findDeveloperByUserName(String usrName);
+
 	//Developer findAccountByName(String name);
 
 }

@@ -10,6 +10,8 @@ public interface AdminRepository extends CrudRepository<Admin, String>{
 
 	UserRole findByUserEmail(String email);
 
+	UserRole findAdminByUserName(String usrName);
+
 	//Admin findAccountByName(String name);
 
 }
