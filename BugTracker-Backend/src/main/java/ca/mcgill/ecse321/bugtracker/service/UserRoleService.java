@@ -160,6 +160,20 @@ public class UserRoleService {
     return toList(urList);
     }
 
+    @Transactional
+    public List<Manager> getAllManagers(){
+        return toList(managerRepository.findAll());
+    }
+
+    @Transactional
+    public List<Admin> getAllAdmins(){
+        return toList(adminRepository.findAll());
+    }
+    @Transactional
+    public List<Developer> getAllDevelopers(){
+        return toList(devRepository.findAll());
+    }
+
     /**
      *
      * @param iterable
