@@ -164,7 +164,6 @@ public class UserRoleService {
     public List<Manager> getAllManagers(){
         return toList(managerRepository.findAll());
     }
-
     @Transactional
     public List<Admin> getAllAdmins(){
         return toList(adminRepository.findAll());
@@ -173,6 +172,29 @@ public class UserRoleService {
     public List<Developer> getAllDevelopers(){
         return toList(devRepository.findAll());
     }
+
+    @Transactional
+    public UserRole getUserRoleByPasswordAndUserName(String password, String userName){
+        String error = "";
+        // null checks
+        if (password == null || password.trim().length() == 0) {
+            error = error + "The password cannot be empty or have spaces.";
+        }
+        if (userName == null || userName.trim().length() == 0) {
+            error = error + "The user name cannot be empty or have spaces.";
+        }
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+        UserRole ur = userRoleRepository.findByPasswordAndUserName(password, userName);
+        if(ur == null){
+            throw new NullPointerException("No user role exists.");
+        }
+
+        return ur;
+
+    }
+
 
     /**
      *
