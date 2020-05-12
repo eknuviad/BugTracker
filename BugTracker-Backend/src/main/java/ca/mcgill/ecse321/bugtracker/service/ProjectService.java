@@ -63,6 +63,20 @@ public class ProjectService {
         return toList(pRepository.findAllByUserRole(ur));
     }
 
+    @Transactional
+    public void deleteProject(Project p){
+        String error = "";
+        if(p == null){
+            error = error + "Project to be deleted cannot be empty";
+        }else if (!pRepository.existsById(p.getId())){
+            error = error + "Project does not exist to be deleted";
+        }
+        if(error.length() > 0){
+            throw new IllegalArgumentException(error);
+        }
+        pRepository.delete(p);
+    }
+
      /**
      *
      * @param iterable
