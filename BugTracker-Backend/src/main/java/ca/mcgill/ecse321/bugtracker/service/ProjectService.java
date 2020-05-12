@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ca.mcgill.ecse321.bugtracker.dao.ProjectRepository;
-import ca.mcgill.ecse321.bugtracker.dao.UserRoleRepository;
 import ca.mcgill.ecse321.bugtracker.model.Developer;
 import ca.mcgill.ecse321.bugtracker.model.Project;
 import ca.mcgill.ecse321.bugtracker.model.UserRole;
@@ -19,8 +18,6 @@ public class ProjectService {
     
     @Autowired
     private ProjectRepository pRepository;
-    @Autowired
-    private UserRoleRepository uRepository;
     
 
     @Transactional
@@ -90,6 +87,20 @@ public class ProjectService {
             throw new IllegalArgumentException("No such project exists.");
         }
         return p;
+    }
+
+    @Transactional
+    public Project updateProjectName(Project p, String newName){
+        Project up = pRepository.findProjectByName(p.getName());
+        if (up == null) {
+            throw new IllegalArgumentException("No such project exists.");
+        }
+        if (newName == null || newName.trim().length() == 0) {
+             throw new IllegalArgumentException("The new project name cannot be empty or have spaces.");
+        }
+        up.setName(newName);
+        pRepository.save(up);
+        return up;
     }
 
      /**
