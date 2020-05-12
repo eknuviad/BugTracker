@@ -77,6 +77,21 @@ public class ProjectService {
         pRepository.delete(p);
     }
 
+    /**
+     * this returns a specific project by id
+     * @param pName
+     * @param ur
+     * @return
+     */
+    @Transactional
+    public Project getProjectById(int id){
+        Project p = pRepository.findProjectById(id);
+        if (p == null) {
+            throw new IllegalArgumentException("No such project exists.");
+        }
+        return p;
+    }
+
      /**
      *
      * @param iterable

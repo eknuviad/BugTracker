@@ -14,5 +14,9 @@ public interface ProjectRepository extends CrudRepository<Project, Integer> {
 	Project findProjectByName(String projName);
 
 	List<Project> findAllByUserRole(UserRole ur);
+
+	boolean existsByName(String pName);
+
+	Project findProjectById(int id);
     
 }
