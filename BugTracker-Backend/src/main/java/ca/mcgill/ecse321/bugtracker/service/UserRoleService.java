@@ -50,7 +50,7 @@ public class UserRoleService {
         }
         // check if username already exists
         String email = acc.getEmail();
-        if (managerRepository.existsByUserName(usrName)) {
+        if (userRoleRepository.existsById(usrName)) {
             if (managerRepository.findManagerByUserName(usrName).getUser().getEmail().equals(email)) {
                 throw new IllegalArgumentException("A manager profile already exists for this account.");
             } else {
@@ -89,7 +89,7 @@ public class UserRoleService {
         }
         // check if username already exists
         String email = acc.getEmail();
-        if (adminRepository.existsByUserName(usrName)) {
+        if (userRoleRepository.existsById(usrName)) {
             if (adminRepository.findAdminByUserName(usrName).getUser().getEmail().equals(email)) {
                 throw new IllegalArgumentException("An Admin profile already exists for this account.");
             } else {
@@ -128,7 +128,7 @@ public class UserRoleService {
         }
         // check if username already exists
         String email = acc.getEmail();
-        if (devRepository.existsByUserName(usrName)) {
+        if (userRoleRepository.existsById(usrName)) {
             if (devRepository.findDeveloperByUserName(usrName).getUser().getEmail().equals(email)) {
                 throw new IllegalArgumentException("A Developer profile already exists for this account.");
             } else {

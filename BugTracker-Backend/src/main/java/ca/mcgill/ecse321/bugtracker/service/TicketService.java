@@ -9,7 +9,9 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ca.mcgill.ecse321.bugtracker.dao.ProjectRepository;
 import ca.mcgill.ecse321.bugtracker.dao.TicketRepository;
+import ca.mcgill.ecse321.bugtracker.dao.UserRoleRepository;
 import ca.mcgill.ecse321.bugtracker.model.Project;
 import ca.mcgill.ecse321.bugtracker.model.Ticket;
 import ca.mcgill.ecse321.bugtracker.model.UserRole;
@@ -19,6 +21,10 @@ public class TicketService {
     
     @Autowired
     private TicketRepository tRepository;
+    @Autowired
+    private UserRoleRepository uRepository;
+    @Autowired
+    private ProjectRepository pRepository;
 
     @Transactional
     public Ticket createTicket(Ticket.TicketStatus tStatus, String tDesc, Date strtDate, Date endDate, UserRole ur, Project p){
@@ -56,6 +62,47 @@ public class TicketService {
 
         return t;
 
+    }
+
+    /**
+     * Returns all the tickets of a particular user role.
+     * @param username
+     * @return
+     */
+    @Transactional
+    public List<Ticket> getAllTicketsByUserRole(String username) {
+        String error = "";
+        if (username == null || username.trim().length() == 0) {
+            error = error + "The username cannot be empty or have spaces.";
+        }
+        UserRole ur = uRepository.findByUserName(username);
+        if (ur == null){
+            error = error + "This user role does not exist to have tickets.";
+        }
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+        List<Ticket> userTickets = tRepository.findByUserRole(ur);
+        return userTickets;
+    }
+
+    /**
+     * returns all tickets of a project
+     * @param ProjectId
+     * @return
+     */
+    @Transactional
+    public List<Ticket> getAllTicketsByProject(int projectId) {
+        String error = "";
+        Project p = pRepository.findProjectById(projectId);
+        if (p == null){
+            error = error + "This project does not exist to have tickets.";
+        }
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+        List<Ticket> userTickets = tRepository.findTicketByPId(p.getId());
+        return userTickets;
     }
 
     /**
