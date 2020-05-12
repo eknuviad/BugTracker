@@ -1,7 +1,5 @@
 package ca.mcgill.ecse321.bugtracker.service;
 
-import javax.validation.constraints.Null;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
