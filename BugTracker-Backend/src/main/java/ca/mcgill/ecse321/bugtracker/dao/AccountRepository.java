@@ -6,6 +6,8 @@ public interface AccountRepository extends CrudRepository<Account, String>{
 
 	Account findAccountByEmail(String email);
 
+	void deleteByEmail(String email);
+
 	//Account findAccountByName(String name);
 
 }
