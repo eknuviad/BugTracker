@@ -11,5 +11,7 @@ import ca.mcgill.ecse321.bugtracker.model.Ticket;
 public interface TicketRepository extends CrudRepository<Ticket, Integer> {
 
 	Ticket findTicketByStartDate(Date strtdate);
+
+	Ticket findTicketById(int id);
     
 }

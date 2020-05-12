@@ -1,6 +1,8 @@
 package ca.mcgill.ecse321.bugtracker.service;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.transaction.Transactional;
 
@@ -55,4 +57,46 @@ public class TicketService {
         return t;
 
     }
+
+    /**
+     * This gets all the tickets in the system.
+     * @return
+     */
+    @Transactional
+    public List<Ticket> getAllTickets(){
+        return toList(tRepository.findAll());
+    }
+    
+    @Transactional
+    public Ticket getTicketById(int id){
+        Ticket t = tRepository.findTicketById(id);
+        if (t == null) {
+            throw new IllegalArgumentException("No such ticket exists.");
+        }
+        return t;
+    }
+
+    @Transactional
+    public void deleteTicketById(int id){
+        Ticket t = tRepository.findTicketById(id);
+        if (t == null) {
+            throw new IllegalArgumentException("No such ticket exists.");
+        }
+        tRepository.delete(t);
+    }
+
+       /**
+     *
+     * @param iterable
+     * @param <T>
+     * @return
+     */
+    private <T> List<T> toList(Iterable<T> iterable) {
+        List<T> resultList = new ArrayList<T>();
+        for (T t : iterable) {
+            resultList.add(t);
+        }
+        return resultList;
+    }
+
 }
