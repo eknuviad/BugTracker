@@ -27,12 +27,15 @@ public class ProjectService {
     public Project createProjectByUserRole(String pName, UserRole ur){
         String error = "";
         if (ur == null) {
-            error = error + "The user to create a Manager cannot be empty.";
+            error = error + "The user role to create a project cannot be empty.";
         }else if (ur instanceof Developer){
             error = error + "Developers are not allowed to create projects at the moment.";
         }
         if (pName == null || pName.trim().length() == 0) {
             error = error + "The Project name cannot be empty or have spaces.";
+        }
+        if(error.length() > 0){
+            throw new IllegalArgumentException(error);
         }
         Project p = new Project();
         p.setName(pName);
@@ -42,6 +45,23 @@ public class ProjectService {
         return p;
     }
 
+    /**
+     * This returns the projects created by this user role
+     * @return
+     */
+    @Transactional
+    public List<Project> getAllProjectsByUserRole(UserRole ur){
+        String error = "";
+        if (ur == null) {
+            error = error + "The user role to retrieve projects cannot be empty.";
+        }else if (ur instanceof Developer){
+            error = error + "Developers are not allowed to create projects at the moment.";
+        }
+        if(error.length() > 0){
+            throw new IllegalArgumentException(error);
+        }
+        return toList(pRepository.findAllByUserRole(ur));
+    }
 
      /**
      *
