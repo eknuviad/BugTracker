@@ -124,6 +124,22 @@ public class TicketService {
     }
 
     @Transactional
+    public Ticket updateTicket(Ticket ticket, Ticket.TicketStatus newtStatus, String newtDesc, Date newstrtDate, Date newendDate ){
+        Ticket t = tRepository.findTicketById(ticket.getId());
+        if (t == null) {
+            throw new IllegalArgumentException("No such ticket exists.");
+        }
+        t.setTicketStatus(newtStatus);
+        t.setDescription(newtDesc);
+        t.setStartDate(newstrtDate);
+        t.setEndDate(newendDate);
+
+        tRepository.save(t);
+
+        return t;
+    }
+
+    @Transactional
     public void deleteTicketById(int id){
         Ticket t = tRepository.findTicketById(id);
         if (t == null) {
