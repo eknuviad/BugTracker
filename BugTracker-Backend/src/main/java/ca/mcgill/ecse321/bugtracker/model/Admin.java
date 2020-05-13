@@ -15,6 +15,10 @@ public class Admin extends UserRole
   // CONSTRUCTOR
   //------------------------
 
+  public Admin(){
+    
+  }
+
   public Admin(String aPassword, String aUserName, Account aAcc)
   {
     super(aPassword, aUserName, aAcc);
