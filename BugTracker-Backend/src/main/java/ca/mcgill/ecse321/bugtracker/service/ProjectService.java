@@ -22,6 +22,7 @@ public class ProjectService {
 
     @Transactional
     public Project createProjectByUserRole(String pName, UserRole ur){
+        //TODO ensure that for the same userrole you cant create project with the same name
         String error = "";
         if (ur == null) {
             error = error + "The user role to create a project cannot be empty.";
@@ -88,6 +89,8 @@ public class ProjectService {
         }
         return p;
     }
+
+    //TODO find project by project name and userrole to be implemented.
 
     @Transactional
     public Project updateProjectName(Project p, String newName){
