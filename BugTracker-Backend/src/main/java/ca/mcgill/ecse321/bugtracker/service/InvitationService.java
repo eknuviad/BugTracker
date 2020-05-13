@@ -35,7 +35,7 @@ public class InvitationService {
             throw new IllegalArgumentException(
                 "A developer cannot send an invitation.");
         }
-        
+
         Invitation invitation = new Invitation(status, userRole, project);
         invitationRepository.save(invitation);
         return invitation;
