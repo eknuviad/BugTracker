@@ -18,7 +18,7 @@ public class CommentService {
     CommentRepository commentRepository;
 
     @Transactional
-    public Comment createComment(Time aTimeStamp, String aMessage, UserRole aUserRole, Ticket aTicket){
+    public Comment createComment(Time aTimeStamp, String aMessage, UserRole aUserRole, Ticket aTicket) throws RuntimeException{
         Comment temp = commentRepository.findCommentByTimeStampAndTicket(aTimeStamp, aTicket);
         if (temp != null){
             throw new IllegalArgumentException(
