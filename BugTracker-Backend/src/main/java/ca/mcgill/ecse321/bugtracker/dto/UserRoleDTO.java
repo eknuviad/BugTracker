@@ -3,9 +3,6 @@ package ca.mcgill.ecse321.bugtracker.dto;
 import java.util.List;
 
 import ca.mcgill.ecse321.bugtracker.model.Account;
-import ca.mcgill.ecse321.bugtracker.model.Invitation;
-import ca.mcgill.ecse321.bugtracker.model.Project;
-import ca.mcgill.ecse321.bugtracker.model.Ticket;
 
 public class UserRoleDTO {
 
@@ -13,11 +10,11 @@ public class UserRoleDTO {
 
     //UserRole Associations
     private Account acc;
-    private List<Project> projects;
-    private List<Invitation> invitations;
-    private List<Ticket> tickets;
+    private List<ProjectDTO> projects;
+    private List<InvitationDTO> invitations;
+    private List<TicketDTO> tickets;
 
-    public UserRoleDTO (String userName, Account acc, List<Project> projects, List<Invitation> invitations, List<Ticket> tickets){
+    public UserRoleDTO (String userName, Account acc, List<ProjectDTO> projects, List<InvitationDTO> invitations, List<TicketDTO> tickets){
         this.userName = userName;
         this.acc = acc;
         this.projects = projects;
