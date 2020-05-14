@@ -45,7 +45,7 @@ public class AccountRestController {
     }
 
     @PostMapping({"/addrole/manager", "/addrole/manager/"})
-    public AccountDTO createManagerRole(@RequestParam("userName") String userName,
+    public AccountDTO addManagerRole(@RequestParam("userName") String userName,
             @RequestParam("password") String password,
             @RequestParam("email") String email) {
         
@@ -54,6 +54,22 @@ public class AccountRestController {
             throw new IllegalArgumentException("Account dosen't exists.");
         }
         Manager manager = urService.createManagerRoleByAccount(password, userName, account);
+        List<UserRole> roles = urService.getAllUserRolesByAccount(account);
+        AccountDTO accountDto = convertToDTO(account, roles);
+        return accountDto;
+        
+    }
+
+    @PostMapping({"/addrole/manager", "/addrole/manager/"})
+    public AccountDTO addAdminRole(@RequestParam("userName") String userName,
+            @RequestParam("password") String password,
+            @RequestParam("email") String email) {
+        
+        Account account = accountService.getAccountByEmail(email);
+        if (account == null){
+            throw new IllegalArgumentException("Account dosen't exists.");
+        }
+        Admin admine = urService.createAdminRoleByAccount(password, userName, account);
         List<UserRole> roles = urService.getAllUserRolesByAccount(account);
         AccountDTO accountDto = convertToDTO(account, roles);
         return accountDto;
