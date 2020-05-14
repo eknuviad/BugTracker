@@ -1,11 +1,13 @@
 package ca.mcgill.ecse321.bugtracker.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.bugtracker.dto.AccountDTO;
+import ca.mcgill.ecse321.bugtracker.dto.UserRoleDTO;
 import ca.mcgill.ecse321.bugtracker.model.Account;
 import ca.mcgill.ecse321.bugtracker.model.Admin;
 import ca.mcgill.ecse321.bugtracker.model.Manager;
@@ -25,7 +27,7 @@ public class AccountRestController {
             throw new IllegalArgumentException("There is no account.");
         }
         
-        List<UserRoleDTO> urDTO = convertToDTO(userrole);
+        List<UserRoleDTO> urDTO = new ArrayList<>();
         for(UserRole u : userrole){
             urDTO.add(convertToDTO(u));
         }
@@ -44,12 +46,10 @@ public class AccountRestController {
             username = "Manager-" + ur.getUserName();
         }else if (ur instanceof Admin){
              username = "Admin-" + ur.getUserName();
-        }else{[
-            username = "Developer-" + ur.getUserName();
-           
+        }else{
+            username = "Developer-" + ur.getUserName(); 
         }
         urDTO = new UserRoleDTO (username, ur.getUser().getEmail());
-
         return urDTO;
     }
 }
