@@ -33,7 +33,8 @@ public class AccountRestController {
     @PostMapping(value = {"/addrole/developer/", "/addrole/developer"})
     public AccountDTO createDeveloperByAccount(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email)throws IllegalArgumentException {
         Account ac = aService.getAccountByEmail(email);
-        uService.createDeveloperRoleByAccount(password, username, ac);
+        String devName = "Developer-" + username;
+        uService.createDeveloperRoleByAccount(password, devName, ac);
         List<UserRole> ur = uService.getAllUserRolesByAccount(ac);
         return convertToDTO(ac, ur);
     }
@@ -46,10 +47,18 @@ public class AccountRestController {
     }
 
     @PostMapping(value = {"/update/role/", "/update/role"})
-    public AccountDTO updateUserRole(@RequestParam("username") String username, @RequestParam("password") String password, @RequestParam("email") String email)throws IllegalArgumentException {
+    public AccountDTO updateUserRole(@RequestParam("oldusername") String oldusername,@RequestParam("newusername") String newusername, @RequestParam("newpassword") String newpassword, @RequestParam("email") String email)throws IllegalArgumentException {
         Account ac = aService.getAccountByEmail(email);
-        UserRole ur = uService.getUserRoleByUserName(username);
-        uService.updateUserRole(password, username, ur);
+        UserRole ur = uService.getUserRoleByUserName(oldusername);
+        String username;
+        if(ur instanceof Manager){
+            username = "Manager-" + newusername;
+        }else if (ur instanceof Admin){
+             username = "Admin-" + newusername;
+        }else{
+            username = "Developer-" + newusername; 
+        }
+        uService.updateUserRole(newpassword, username, ur);
         List<UserRole> urList = uService.getAllUserRolesByAccount(ac);
         return convertToDTO(ac, urList);
     }
@@ -78,11 +87,11 @@ public class AccountRestController {
         UserRoleDTO urDTO;
         String username;
         if(ur instanceof Manager){
-            username = "Manager-" + ur.getUserName();
+            username = ur.getUserName();
         }else if (ur instanceof Admin){
-             username = "Admin-" + ur.getUserName();
+             username = ur.getUserName();
         }else{
-            username = "Developer-" + ur.getUserName(); 
+            username = ur.getUserName(); 
         }
         urDTO = new UserRoleDTO (username, ur.getUser().getEmail());
         return urDTO;
