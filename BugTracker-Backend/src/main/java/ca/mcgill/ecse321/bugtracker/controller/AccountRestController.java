@@ -91,7 +91,7 @@ public class AccountRestController {
         
     }
 
-    @PostMapping({"/addrole/manager", "/addrole/manager/"})
+    @PostMapping({"/addrole/admin", "/addrole/admin/"})
     public AccountDTO addAdminRole(@RequestParam("userName") final String userName,
             @RequestParam("password") final String password,
             @RequestParam("email") final String email) {
