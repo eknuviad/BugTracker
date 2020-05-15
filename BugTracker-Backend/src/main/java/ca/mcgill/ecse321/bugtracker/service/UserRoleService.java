@@ -67,6 +67,7 @@ public class UserRoleService {
         Manager manager = new Manager();
         manager.setPassword(password);
         manager.setUserName(usrName);
+        manager.setDisplayName(usrName);
         manager.setUser(acc);
 
         managerRepository.save(manager);
@@ -106,6 +107,7 @@ public class UserRoleService {
         Admin admin = new Admin();
         admin.setPassword(password);
         admin.setUserName(usrName);
+        admin.setDisplayName(usrName);
         admin.setUser(acc);
 
         adminRepository.save(admin);
@@ -145,6 +147,7 @@ public class UserRoleService {
         Developer dev = new Developer();
         dev.setPassword(password);
         dev.setUserName(usrName);
+        dev.setDisplayName(usrName);
         dev.setUser(acc);
 
         devRepository.save(dev);
