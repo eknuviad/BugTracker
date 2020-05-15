@@ -225,7 +225,7 @@ public class UserRoleService {
     }
 
     @Transactional
-    public void updateUserRole(String newpassword, String olduserName, UserRole ur){
+    public void updateUserRole(String newpassword, String olduserName, String newuserName, UserRole ur){
         String error = "";
         // null checks
         if (ur == null) {
@@ -239,7 +239,7 @@ public class UserRoleService {
         }
         if(userRoleRepository.findByUserName(olduserName) != null){
             ur.setPassword(newpassword);
-            // ur.setUserName(newuserName);
+            ur.setDisplayName(newuserName);
             userRoleRepository.save(ur);
         }else{
             error = error + "This user role does not exist.";

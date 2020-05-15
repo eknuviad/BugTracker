@@ -31,6 +31,7 @@ public abstract class UserRole
   //UserRole Attributes
   private String password;
   private String userName;
+  private String displayName;
 
   //UserRole Associations
   private Account acc;
@@ -49,6 +50,7 @@ public abstract class UserRole
   {
     password = aPassword;
     userName = aAccName;
+    displayName = aAccName;
     this.acc = aAcc;
     projects = new ArrayList<Project>();
     invitations = new ArrayList<Invitation>();
@@ -58,6 +60,13 @@ public abstract class UserRole
   //------------------------
   // INTERFACE
   //------------------------
+  public String getDisplayName() {
+    return displayName;
+  }
+
+  public void setDisplayName(String displayName) {
+    this.displayName = displayName;
+  }
 
   public boolean setPassword(String aPassword)
   {

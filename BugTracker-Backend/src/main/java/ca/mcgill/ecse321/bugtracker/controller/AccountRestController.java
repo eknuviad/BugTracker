@@ -59,7 +59,7 @@ public class AccountRestController {
         }else{
             username = "Developer-" + newusername; 
         }
-        urService.updateUserRole(newpassword, oldusername, ur);
+        urService.updateUserRole(newpassword, oldusername, newusername, ur);
          List<UserRole> urList = urService.getAllUserRolesByAccount(ac);
         return convertToDTO(ac, urList);
     }
@@ -140,11 +140,11 @@ public class AccountRestController {
         UserRoleDTO urDTO;
         String username;
         if(ur instanceof Manager){
-            username = ur.getUserName();
+            username = ur.getDisplayName();
         }else if (ur instanceof Admin){
-             username = ur.getUserName();
+             username = ur.getDisplayName();
         }else{
-            username = ur.getUserName(); 
+            username = ur.getDisplayName(); 
         }
         urDTO = new UserRoleDTO (username, ur.getUser().getEmail());
         return urDTO;
