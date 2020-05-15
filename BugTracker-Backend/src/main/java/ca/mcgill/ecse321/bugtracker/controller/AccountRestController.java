@@ -14,6 +14,7 @@ import ca.mcgill.ecse321.bugtracker.dto.AccountDTO;
 import ca.mcgill.ecse321.bugtracker.dto.UserRoleDTO;
 import ca.mcgill.ecse321.bugtracker.model.Account;
 import ca.mcgill.ecse321.bugtracker.model.Admin;
+import ca.mcgill.ecse321.bugtracker.model.Developer;
 import ca.mcgill.ecse321.bugtracker.model.Manager;
 import ca.mcgill.ecse321.bugtracker.model.UserRole;
 import ca.mcgill.ecse321.bugtracker.service.AccountService;
@@ -31,25 +32,25 @@ public class AccountRestController {
 
 
     @PostMapping(value = {"/addrole/developer/", "/addrole/developer"})
-    public AccountDTO createDeveloperByAccount(@RequestParam("username") final String username, @RequestParam("password") final String password, @RequestParam("email") final String email)throws IllegalArgumentException {
-        final Account ac = aService.getAccountByEmail(email);
-        final String devName = "Developer-" + username;
-        urService.createDeveloperRoleByAccount(password, devName, ac);
-        final List<UserRole> ur = urService.getAllUserRolesByAccount(ac);
+    public AccountDTO createDeveloperByAccount(@RequestParam("username")  String username, @RequestParam("password")  String password, @RequestParam("email")  String email)throws IllegalArgumentException {
+         Account ac = aService.getAccountByEmail(email);
+         String devName = "Developer-" + username;
+        Developer developer = urService.createDeveloperRoleByAccount(password, devName, ac);
+         List<UserRole> ur = urService.getAllUserRolesByAccount(ac);
         return convertToDTO(ac, ur);
     }
 
     @GetMapping(value = {"/account/email/", "/account/email"})
-    public AccountDTO getAccountByEmail(@RequestParam("email") final String email)throws IllegalArgumentException {
-        final Account ac = aService.getAccountByEmail(email);
-        final List<UserRole> ur = urService.getAllUserRolesByAccount(ac);
+    public AccountDTO getAccountByEmail(@RequestParam("email")  String email)throws IllegalArgumentException {
+         Account ac = aService.getAccountByEmail(email);
+         List<UserRole> ur = urService.getAllUserRolesByAccount(ac);
         return convertToDTO(ac, ur);
     }
 
     @PostMapping(value = {"/update/role/", "/update/role"})
-    public AccountDTO updateUserRole(@RequestParam("oldusername") final String oldusername,@RequestParam("newusername") final String newusername, @RequestParam("newpassword") final String newpassword, @RequestParam("email") final String email)throws IllegalArgumentException {
-        final Account ac = aService.getAccountByEmail(email);
-        final UserRole ur = urService.getUserRoleByUserName(oldusername);
+    public AccountDTO updateUserRole(@RequestParam("oldusername")  String oldusername,@RequestParam("newusername")  String newusername, @RequestParam("newpassword")  String newpassword, @RequestParam("email")  String email)throws IllegalArgumentException {
+         Account ac = aService.getAccountByEmail(email);
+         UserRole ur = urService.getUserRoleByUserName(oldusername);
         String username;
         if(ur instanceof Manager){
             username = "Manager-" + newusername;
@@ -58,51 +59,53 @@ public class AccountRestController {
         }else{
             username = "Developer-" + newusername; 
         }
-        urService.updateUserRole(newpassword, username, ur);
-        final List<UserRole> urList = urService.getAllUserRolesByAccount(ac);
+        urService.updateUserRole(newpassword, oldusername, ur);
+         List<UserRole> urList = urService.getAllUserRolesByAccount(ac);
         return convertToDTO(ac, urList);
     }
 
     @PostMapping({"/create/account", "/create/account/"})
-    public AccountDTO createAccount(@RequestParam("accName") final String name,
-            @RequestParam("accEmail") final String email,
-            @RequestParam("description") final String description,
-            @RequestParam("phoneNum") final int phoneNumber){
+    public AccountDTO createAccount(@RequestParam("accName")  String name,
+            @RequestParam("accEmail")  String email,
+            @RequestParam("description")  String description,
+            @RequestParam("phoneNum")  int phoneNumber){
         
-        final Account account = aService.createAccount(name, email, description, phoneNumber);
-        final List<UserRole> userRoles = urService.getAllUserRolesByAccount(account);
-        final AccountDTO accountDto = convertToDTO(account, userRoles);
+         Account account = aService.createAccount(name, email, description, phoneNumber);
+         List<UserRole> userRoles = urService.getAllUserRolesByAccount(account);
+         AccountDTO accountDto = convertToDTO(account, userRoles);
         return accountDto;
     }
 
     @PostMapping({"/addrole/manager", "/addrole/manager/"})
-    public AccountDTO addManagerRole(@RequestParam("userName") final String userName,
-            @RequestParam("password") final String password,
-            @RequestParam("email") final String email) {
+    public AccountDTO addManagerRole(@RequestParam("userName")  String userName,
+            @RequestParam("password")  String password,
+            @RequestParam("email")  String email) {
         
-        final Account account = aService.getAccountByEmail(email);
+         Account account = aService.getAccountByEmail(email);
         if (account == null){
             throw new IllegalArgumentException("Account dosen't exists.");
         }
-        final Manager manager = urService.createManagerRoleByAccount(password, userName, account);
-        final List<UserRole> roles = urService.getAllUserRolesByAccount(account);
-        final AccountDTO accountDto = convertToDTO(account, roles);
+        String managerName = "Manager-" + userName;
+         Manager manager = urService.createManagerRoleByAccount(password, managerName, account);
+         List<UserRole> roles = urService.getAllUserRolesByAccount(account);
+         AccountDTO accountDto = convertToDTO(account, roles);
         return accountDto;
         
     }
 
     @PostMapping({"/addrole/admin", "/addrole/admin/"})
-    public AccountDTO addAdminRole(@RequestParam("userName") final String userName,
-            @RequestParam("password") final String password,
-            @RequestParam("email") final String email) {
+    public AccountDTO addAdminRole(@RequestParam("userName")  String userName,
+            @RequestParam("password")  String password,
+            @RequestParam("email")  String email) {
         
-        final Account account = aService.getAccountByEmail(email);
+         Account account = aService.getAccountByEmail(email);
         if (account == null){
             throw new IllegalArgumentException("Account dosen't exists.");
         }
-        final Admin admine = urService.createAdminRoleByAccount(password, userName, account);
-        final List<UserRole> roles = urService.getAllUserRolesByAccount(account);
-        final AccountDTO accountDto = convertToDTO(account, roles);
+        String adminName = "Admin-" + userName;
+         Admin admine = urService.createAdminRoleByAccount(password, adminName, account);
+         List<UserRole> roles = urService.getAllUserRolesByAccount(account);
+         AccountDTO accountDto = convertToDTO(account, roles);
         return accountDto;
         
     }
@@ -110,21 +113,27 @@ public class AccountRestController {
 
 
 
-    private AccountDTO convertToDTO(final Account account, final List<UserRole> userrole ) {
+    private AccountDTO convertToDTO( Account account,  List<UserRole> userrole ) {
         if (account == null) {
             throw new IllegalArgumentException("There is no account.");
         }
         
-        final List<UserRoleDTO> urDTO = new ArrayList<>();
-        for(final UserRole u : userrole){
-            urDTO.add(convertToDTO(u));
-        }
-        final AccountDTO accDTO = new AccountDTO(account.getName(),account.getEmail(), account.getDescription(), account.getPhoneNumber(),urDTO);
+         List<UserRoleDTO> urDTO = new ArrayList<>();
+
+         if (userrole == null){
+             urDTO = null;
+         } else {
+            for( UserRole u : userrole){
+                urDTO.add(convertToDTO(u));
+            }
+         }
+  
+         AccountDTO accDTO = new AccountDTO(account.getName(),account.getEmail(), account.getDescription(), account.getPhoneNumber(),urDTO);
         return accDTO;
     
     }
 
-    private UserRoleDTO convertToDTO(final UserRole ur){
+    private UserRoleDTO convertToDTO( UserRole ur){
         if (ur == null) {
             throw new IllegalArgumentException("There is no userrole.");
         }

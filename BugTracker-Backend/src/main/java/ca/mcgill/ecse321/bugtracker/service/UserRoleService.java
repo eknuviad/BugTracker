@@ -237,8 +237,9 @@ public class UserRoleService {
         if (newpassword == null || newpassword.trim().length() == 0) {
         error = error + "The new password cannot be empty or have spaces.";
         }
-        if(userRoleRepository.existsById(olduserName)){
+        if(userRoleRepository.findByUserName(olduserName) != null){
             ur.setPassword(newpassword);
+            // ur.setUserName(newuserName);
             userRoleRepository.save(ur);
         }else{
             error = error + "This user role does not exist.";
