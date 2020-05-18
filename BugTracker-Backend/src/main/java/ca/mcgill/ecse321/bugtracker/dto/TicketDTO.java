@@ -3,7 +3,7 @@ package ca.mcgill.ecse321.bugtracker.dto;
 
 import java.sql.Date;
 
-import ca.mcgill.ecse321.bugtracker.model.Project.TicketStatus;
+import ca.mcgill.ecse321.bugtracker.model.Ticket.TicketStatus;
 
 public class TicketDTO {
 
@@ -17,8 +17,8 @@ public class TicketDTO {
     // private Project p;
     private int id;
 
-    public TicketDTO (TicketStatus status, String description, Date startDate, Date endDate, int id){
-        this.ticketStatus = status;
+    public TicketDTO (TicketStatus ticketStatus2, String description, Date startDate, Date endDate, int id){
+        this.ticketStatus = ticketStatus2;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
