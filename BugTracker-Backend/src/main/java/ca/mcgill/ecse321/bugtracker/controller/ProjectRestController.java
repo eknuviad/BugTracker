@@ -10,24 +10,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse321.bugtracker.dao.UserRoleRepository;
-import ca.mcgill.ecse321.bugtracker.dto.AccountDTO;
 import ca.mcgill.ecse321.bugtracker.dto.InvitationDTO;
 import ca.mcgill.ecse321.bugtracker.dto.ProjectDTO;
 import ca.mcgill.ecse321.bugtracker.dto.TicketDTO;
 import ca.mcgill.ecse321.bugtracker.dto.UserRoleDTO;
-import ca.mcgill.ecse321.bugtracker.model.Account;
 import ca.mcgill.ecse321.bugtracker.model.Admin;
-import ca.mcgill.ecse321.bugtracker.model.Developer;
 import ca.mcgill.ecse321.bugtracker.model.Invitation;
 import ca.mcgill.ecse321.bugtracker.model.Manager;
 import ca.mcgill.ecse321.bugtracker.model.Project;
 import ca.mcgill.ecse321.bugtracker.model.Ticket;
 import ca.mcgill.ecse321.bugtracker.model.UserRole;
-import ca.mcgill.ecse321.bugtracker.service.AccountService;
 import ca.mcgill.ecse321.bugtracker.service.ProjectService;
 import ca.mcgill.ecse321.bugtracker.service.UserRoleService;
-import ca.mcgill.ecse321.bugtracker.model.Project.TicketStatus;
 
 
 @CrossOrigin(origins = "*")
