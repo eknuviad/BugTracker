@@ -34,7 +34,7 @@ public class ProjectRestController {
     @Autowired 
     private UserRoleService uService;
 
-    @PostMapping({"/create/project/", "/create/project/"})
+    @PostMapping({"/create/project", "/create/project/"})
     public ProjectDTO createProjectByUserRole (@RequestParam("projectName") String pName, @RequestParam("userName") String userName) throws IllegalArgumentException{
         UserRole role = uService.getUserRoleByUserName(userName);
         if (role == null) {
@@ -72,7 +72,7 @@ public class ProjectRestController {
         return converProjectToDTO(project);
     }
 
-    @PostMapping({"/update/project/", "/update/project/"})
+    @PostMapping({"/update/project", "/update/project/"})
     public ProjectDTO updateProjectName (@RequestParam("newProjectName") String newName, @RequestParam("id") int id) throws IllegalArgumentException{
         Project project = pService.getProjectById(id);
         if (project == null){
