@@ -9,12 +9,12 @@ public class InvitationDTO {
   private InvitationStatus invStatus;
   private int id;
   //Invitation Associations
-  private UserRoleDTO userRole;
+  private UserRoleDTO receiver;
   //private Project project;
 
-  public InvitationDTO (InvitationStatus status, UserRoleDTO role, int id){
+  public InvitationDTO (InvitationStatus status, UserRoleDTO receiver, int id){
       this.invStatus = status;
-      this.userRole = role;
+      this.receiver = receiver;
       this.id = id;
   }
 
@@ -34,12 +34,12 @@ public class InvitationDTO {
       this.id = id;
   }
 
-  public UserRoleDTO getUserRole() {
-      return userRole;
+  public UserRoleDTO getReceiver() {
+      return receiver;
   }
 
-  public void setUserRole(UserRoleDTO userRole) {
-      this.userRole = userRole;
+  public void setReceiver(UserRoleDTO receiver) {
+      this.receiver = receiver;
   }
     
 }

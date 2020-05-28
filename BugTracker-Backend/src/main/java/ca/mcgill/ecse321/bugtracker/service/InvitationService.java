@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.bugtracker.dao.CommentRepository;
@@ -17,39 +18,40 @@ import ca.mcgill.ecse321.bugtracker.model.Ticket;
 import ca.mcgill.ecse321.bugtracker.model.UserRole;
 import ca.mcgill.ecse321.bugtracker.model.Invitation.InvitationStatus;
 
+@Service
 public class InvitationService {
 
     @Autowired
     InvitationRepository invitationRepository;
 
     @Transactional
-    public Invitation createInvitation(InvitationStatus status, UserRole userRole, Project project) throws RuntimeException{
-        Invitation temp = invitationRepository.findByProjectAndUserRole(project, userRole);
+    public Invitation createInvitation(InvitationStatus status, UserRole sender, UserRole receiver, Project project) throws RuntimeException{
+        Invitation temp = invitationRepository.findByProjectAndReceiver(project, receiver);
         if (temp != null){
             throw new IllegalArgumentException(
                 "There is already an invitation for that userRole in: " + temp.getProject().getName());
         }
 
-        boolean isDeveloper = userRole instanceof Developer;
+        boolean isDeveloper = sender instanceof Developer;
         if (isDeveloper){
             throw new IllegalArgumentException(
                 "A developer cannot send an invitation.");
         }
 
-        Invitation invitation = new Invitation(status, userRole, project);
+        Invitation invitation = new Invitation(status, sender, receiver, project);
         invitationRepository.save(invitation);
         return invitation;
     }
 
     @Transactional
-    public Invitation getInvitationByProjectNameAndUserRole(Project project, UserRole role){
-        Invitation invitation = invitationRepository.findByProjectAndUserRole(project, role);
+    public Invitation getInvitationByProjectNameAndReceiver(Project project, UserRole receiver){
+        Invitation invitation = invitationRepository.findByProjectAndReceiver(project, receiver);
         return invitation;
     }
 
     @Transactional
-    public List<Invitation> getInvitationByUserRole(UserRole role){
-        return toList(invitationRepository.findAllByUserRole(role));
+    public List<Invitation> getInvitationByReceiver(UserRole receiver){
+        return toList(invitationRepository.findAllByReceiver(receiver));
     }
 
     @Transactional

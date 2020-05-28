@@ -300,11 +300,11 @@ public abstract class UserRole
   {
     boolean wasAdded = false;
     if (invitations.contains(aInvitation)) { return false; }
-    UserRole existingUserRole = aInvitation.getUserRole();
+    UserRole existingUserRole = aInvitation.getReceiver();
     boolean isNewUserRole = existingUserRole != null && !this.equals(existingUserRole);
     if (isNewUserRole)
     {
-      aInvitation.setUserRole(this);
+      aInvitation.setReceiver(this);
     }
     else
     {
@@ -318,7 +318,7 @@ public abstract class UserRole
   {
     boolean wasRemoved = false;
     //Unable to remove aInvitation, as it must always have a userRole
-    if (!this.equals(aInvitation.getUserRole()))
+    if (!this.equals(aInvitation.getReceiver()))
     {
       invitations.remove(aInvitation);
       wasRemoved = true;

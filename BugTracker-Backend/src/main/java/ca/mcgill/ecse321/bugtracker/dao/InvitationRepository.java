@@ -8,17 +8,13 @@ import ca.mcgill.ecse321.bugtracker.model.*;
 
 public interface InvitationRepository extends CrudRepository<Invitation, Integer>{
 
-	// Invitation findInvitationById(int id);
+	//boolean existsByProjectAndUserRole(Project prjectName, UserRole userRoleName);
 
-	List<Invitation> findByProject(Project projectName);
-
-	boolean existsByProjectAndUserRole(Project prjectName, UserRole userRoleName);
-
-	Invitation findByProjectAndUserRole(Project projectName, UserRole userRoleName);
+	Invitation findByProjectAndReceiver(Project projectName, UserRole receiver);
 
 	Invitation findById(int id);
 
-	List<Invitation> findAllByUserRole(UserRole role);
+	List<Invitation> findAllByReceiver(UserRole receiver);
 
 	List<Invitation> findAllByProject(Project project);
 

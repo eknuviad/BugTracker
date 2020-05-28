@@ -28,7 +28,8 @@ public class Invitation
   // @GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
   //Invitation Associations
-  private UserRole userRole;
+  private UserRole sender;
+  private UserRole receiver;
   private Project project;
 
   //------------------------
@@ -39,11 +40,12 @@ public class Invitation
 
   }
 
-  public Invitation(InvitationStatus aInvStatus, UserRole aUserRole, Project aProject)
+  public Invitation(InvitationStatus aInvStatus, UserRole sender, UserRole receiver, Project aProject)
   {
     invStatus = aInvStatus;
     // id = aId;
-    this.userRole = aUserRole;
+    this.sender = sender;
+    this.receiver = receiver;
     this.project = aProject;
     // boolean didAddUserRole = setUserRole(aUserRole);
     // if (!didAddUserRole)
@@ -91,10 +93,17 @@ public class Invitation
   }
   /* Code from template association_GetOne */
   @ManyToOne (optional = false)
-  public UserRole getUserRole()
+  public UserRole getSender()
   {
-    return userRole;
+    return sender;
   }
+
+  @ManyToOne (optional = false)
+  public UserRole getReceiver()
+  {
+    return receiver;
+  }
+
   /* Code from template association_GetOne */
   @ManyToOne (optional = false)
   public Project getProject()
@@ -102,9 +111,14 @@ public class Invitation
     return project;
   }
   /* Code from template association_SetOneToMany */
-  public void setUserRole(UserRole aUserRole)
+  public void setSender(UserRole sender)
   {
-    this.userRole = aUserRole;
+    this.sender = sender;
+  }
+
+  public void setReceiver(UserRole receiver)
+  {
+    this.receiver = receiver;
   }
   // public boolean setUserRole(UserRole aUserRole)
   // {
@@ -148,12 +162,20 @@ public class Invitation
 
   public void delete()
   {
-    UserRole placeholderUserRole = userRole;
-    this.userRole = null;
-    if(placeholderUserRole != null)
+    UserRole placeholderSender = sender;
+    this.sender = null;
+    if(placeholderSender != null)
     {
-      placeholderUserRole.removeInvitation(this);
+      placeholderSender.removeInvitation(this);
     }
+
+    UserRole placeholderReceiver = receiver;
+    this.receiver = null;
+    if(placeholderReceiver != null)
+    {
+      placeholderReceiver.removeInvitation(this);
+    }
+
     Project placeholderProject = project;
     this.project = null;
     if(placeholderProject != null)
@@ -168,7 +190,8 @@ public class Invitation
     return super.toString() + "["+
             "id" + ":" + getId()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "invStatus" + "=" + (getInvStatus() != null ? !getInvStatus().equals(this)  ? getInvStatus().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
-            "  " + "userRole = "+(getUserRole()!=null?Integer.toHexString(System.identityHashCode(getUserRole())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "sender = "+(getSender()!=null?Integer.toHexString(System.identityHashCode(getSender())):"null") + System.getProperties().getProperty("line.separator") +
+            "  " + "receiver = "+(getReceiver()!=null?Integer.toHexString(System.identityHashCode(getReceiver())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "project = "+(getProject()!=null?Integer.toHexString(System.identityHashCode(getProject())):"null");
   }
 }
