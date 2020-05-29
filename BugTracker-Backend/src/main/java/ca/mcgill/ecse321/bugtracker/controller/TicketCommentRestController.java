@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse321.bugtracker.dto.AccountDTO;
+import ca.mcgill.ecse321.bugtracker.dto.CommentDTO;
 import ca.mcgill.ecse321.bugtracker.dto.InvitationDTO;
 import ca.mcgill.ecse321.bugtracker.dto.ProjectDTO;
 import ca.mcgill.ecse321.bugtracker.dto.TicketDTO;
 import ca.mcgill.ecse321.bugtracker.dto.UserRoleDTO;
 import ca.mcgill.ecse321.bugtracker.model.Account;
 import ca.mcgill.ecse321.bugtracker.model.Admin;
+import ca.mcgill.ecse321.bugtracker.model.Comment;
 import ca.mcgill.ecse321.bugtracker.model.Developer;
 import ca.mcgill.ecse321.bugtracker.model.Invitation;
 import ca.mcgill.ecse321.bugtracker.model.Manager;
@@ -49,6 +51,7 @@ public class TicketCommentRestController {
     @Autowired
     private TicketService tService;
 
+    //================= Ticket Rest Controller================================================
     @PostMapping({ "/create/ticket", "/create/ticket/" })
     public TicketDTO createTicket(@RequestParam("ticketStatus") TicketStatus status,
             @RequestParam("description") String description, @RequestParam("startDate") String startDate,
@@ -113,7 +116,11 @@ public class TicketCommentRestController {
             }
         }
         return tDto;
-    }    
+    }  
+    
+    //================= Comment Rest Controller================================================
+    
+
 
     private UserRoleDTO convertToDTO( UserRole ur){
         if (ur == null) {
@@ -149,6 +156,17 @@ public class TicketCommentRestController {
         UserRoleDTO urDto = convertToDTO (invitation.getReceiver());
         InvitationDTO invDto = new InvitationDTO(invitation.getInvStatus(), urDto, invitation.getId());
         return invDto;
+    }
+
+    private CommentDTO convertCommentToDTO (Comment comment){
+        if (comment == null){
+            throw new IllegalArgumentException("There is no comment.");            
+        }
+
+        UserRoleDTO urDto = convertToDTO(comment.getUserRole());
+        TicketDTO tDto = convertTicketToDTO(comment.getTicket());
+        CommentDTO cDto = new CommentDTO(comment.getTimeStamp(), comment.getMessage(), urDto, tDto, comment.getId());
+        return cDto;
     }
 
     private ProjectDTO converProjectToDTO (Project project){

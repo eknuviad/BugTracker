@@ -12,16 +12,16 @@ public class CommentDTO {
     private String message;
   
     //Comment Associations
-    private UserRole userRole;
-    private Ticket ticket;
+    private UserRoleDTO userRole;
+    private TicketDTO ticket;
 
     private int id;
 
-    public CommentDTO (Time time, String message, UserRole role, Ticket ticket, int id){
+    public CommentDTO (Time time, String message, UserRoleDTO urDto, TicketDTO tDto, int id){
         this.timeStamp = time;
         this.message = message;
-        this.userRole = role;
-        this.ticket = ticket;
+        this.userRole = urDto;
+        this.ticket = tDto;
         this.id = id;
     }
 
@@ -41,19 +41,19 @@ public class CommentDTO {
         this.message = message;
     }
 
-    public UserRole getUserRole() {
+    public UserRoleDTO getUserRole() {
         return userRole;
     }
 
-    public void setUserRole(UserRole userRole) {
+    public void setUserRole(UserRoleDTO userRole) {
         this.userRole = userRole;
     }
 
-    public Ticket getTicket() {
+    public TicketDTO getTicket() {
         return ticket;
     }
 
-    public void setTicket(Ticket ticket) {
+    public void setTicket(TicketDTO ticket) {
         this.ticket = ticket;
     }
 
@@ -63,6 +63,6 @@ public class CommentDTO {
 
     public void setId(int id) {
         this.id = id;
-    }
+    } 
     
 }
