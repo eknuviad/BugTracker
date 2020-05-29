@@ -32,9 +32,11 @@ public class Comment
     
   }
 
-  public Comment(Time aTimeStamp, String aMessage, UserRole aUserRole, Ticket aTicket)
+  public Comment(String aMessage, UserRole aUserRole, Ticket aTicket)
   {
-    timeStamp = aTimeStamp;
+    long now = System.currentTimeMillis();
+    Time sqlTime = new Time(now);
+    timeStamp = sqlTime;
     message = aMessage;
     if (!setUserRole(aUserRole))
     {

@@ -34,6 +34,7 @@ import ca.mcgill.ecse321.bugtracker.model.Ticket;
 import ca.mcgill.ecse321.bugtracker.model.UserRole;
 import ca.mcgill.ecse321.bugtracker.model.Ticket.TicketStatus;
 import ca.mcgill.ecse321.bugtracker.service.AccountService;
+import ca.mcgill.ecse321.bugtracker.service.CommentService;
 import ca.mcgill.ecse321.bugtracker.service.ProjectService;
 import ca.mcgill.ecse321.bugtracker.service.TicketService;
 import ca.mcgill.ecse321.bugtracker.service.UserRoleService;
@@ -50,6 +51,9 @@ public class TicketCommentRestController {
 
     @Autowired
     private TicketService tService;
+
+    @Autowired
+    private CommentService cService;
 
     //================= Ticket Rest Controller================================================
     @PostMapping({ "/create/ticket", "/create/ticket/" })
@@ -119,7 +123,21 @@ public class TicketCommentRestController {
     }  
     
     //================= Comment Rest Controller================================================
-    
+    @PostMapping({"create/comment", "create/comment/"})
+    public CommentDTO creatComment(@RequestParam("message") String message, @RequestParam("userName") String userName, 
+                                    @RequestParam("ticketId") int tId) throws IllegalArgumentException{
+
+        UserRole ur = urService.getUserRoleByUserName(userName);
+        if (ur == null){
+            throw new IllegalArgumentException("UserRole dosen't exists.");
+        }
+        Ticket ticket = tService.getTicketById(tId);
+        if (ticket == null){
+            throw new IllegalArgumentException("Ticket dosen't exists.");
+        }
+        Comment comment = cService.createComment(message, ur, ticket);
+        return convertCommentToDTO(comment);
+    }
 
 
     private UserRoleDTO convertToDTO( UserRole ur){

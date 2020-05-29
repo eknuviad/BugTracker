@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import ca.mcgill.ecse321.bugtracker.dao.CommentRepository;
@@ -12,19 +13,20 @@ import ca.mcgill.ecse321.bugtracker.model.Comment;
 import ca.mcgill.ecse321.bugtracker.model.Ticket;
 import ca.mcgill.ecse321.bugtracker.model.UserRole;
 
+@Service
 public class CommentService {
 
     @Autowired
     CommentRepository commentRepository;
 
     @Transactional
-    public Comment createComment(Time aTimeStamp, String aMessage, UserRole aUserRole, Ticket aTicket) throws RuntimeException{
-        Comment temp = commentRepository.findCommentByTimeStampAndTicket(aTimeStamp, aTicket);
-        if (temp != null){
-            throw new IllegalArgumentException(
-                "There is already an comment with that timeStmap: " + temp.getTimeStamp());
-        }
-        Comment comment = new Comment(aTimeStamp, aMessage, aUserRole, aTicket);
+    public Comment createComment(String aMessage, UserRole aUserRole, Ticket aTicket) throws RuntimeException{
+        //Comment temp = commentRepository.findCommentByTimeStampAndTicket(aTimeStamp, aTicket);
+        // if (temp != null){
+        //     throw new IllegalArgumentException(
+        //         "There is already an comment with that timeStmap: " + temp.getTimeStamp());
+        // }
+        Comment comment = new Comment(aMessage, aUserRole, aTicket);
         commentRepository.save(comment);
         return comment;
     }
