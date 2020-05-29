@@ -139,6 +139,36 @@ public class TicketCommentRestController {
         return convertCommentToDTO(comment);
     }
 
+    @PostMapping({"update/comment", "update/comment/"})
+    public CommentDTO updateComment(@RequestParam("commentId") int cId, @RequestParam("newmessage") String newMessage) throws IllegalArgumentException{
+
+        Comment comment = cService.getCommentById(cId);
+        if (comment == null){
+            throw new IllegalArgumentException("Comment dosen't exists.");
+        }
+
+        comment = cService.updateComment(comment, newMessage);
+        return convertCommentToDTO(comment);
+    }
+
+    @GetMapping({"comments/userrole", "comments/userrole/"})
+    public List<CommentDTO> getAllCommentbyUserRole(@RequestParam("userName") String userName) throws IllegalArgumentException{
+        UserRole ur = urService.getUserRoleByUserName(userName);
+        if (ur == null){
+            throw new IllegalArgumentException("UserRole dosen't exists.");
+        }
+
+        List<Comment> comments = cService.getAllCommentByUserRole(ur);
+        List<CommentDTO> cDto = new ArrayList<>();
+        if (comments == null) {
+            cDto = null;
+        } else {
+            for (Comment c: comments){
+                cDto.add(convertCommentToDTO(c));
+            }
+        }
+        return cDto;
+    }
 
     private UserRoleDTO convertToDTO( UserRole ur){
         if (ur == null) {

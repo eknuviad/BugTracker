@@ -32,13 +32,13 @@ public class CommentService {
     }
 
     @Transactional
-    public boolean updateComment(Comment comment, String description){
+    public Comment updateComment(Comment comment, String description) throws IllegalArgumentException{
         if (comment == null){
-            return false;
+            throw new IllegalArgumentException("Comment dosen't exists.");
         }
         comment.setMessage(description);
         commentRepository.save(comment);
-        return true;
+        return comment;
     }
 
     @Transactional
